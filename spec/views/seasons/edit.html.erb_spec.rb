@@ -15,7 +15,6 @@ RSpec.describe "seasons/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", season_path(season), "post" do
-
       assert_select "input[name=?]", "season[title]"
     end
   end
