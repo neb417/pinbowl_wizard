@@ -11,7 +11,6 @@ RSpec.describe "rounds/new", type: :view do
     render
 
     assert_select "form[action=?][method=?]", rounds_path, "post" do
-
       assert_select "input[name=?]", "round[season_id]"
     end
   end
