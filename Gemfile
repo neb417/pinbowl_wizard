@@ -50,15 +50,8 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem "capybara"
-  gem "factory_bot_rails"
-  gem "faker"
-  gem "launchy"
-  gem "orderly"
   gem "pry"
-  gem "rspec-rails"
-  gem "shoulda-matchers"
-  gem "simplecov"
+  gem "faker"
 end
 
 group :development do
@@ -66,4 +59,15 @@ group :development do
   gem "web-console"
 
   gem "annotate"
+end
+
+group :test do
+  gem "database_cleaner"
+  gem "rspec-rails"
+  gem "shoulda-matchers"
+  gem "simplecov"
+  gem "capybara"
+  gem "factory_bot_rails"
+  gem "launchy"
+  gem "orderly"
 end
