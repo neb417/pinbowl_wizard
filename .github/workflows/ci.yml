@@ -22,6 +22,12 @@ jobs:
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
 
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Rspec Tests
+        run: bundle exec rspec
+
   scan_js:
     runs-on: ubuntu-latest
 
@@ -52,9 +58,3 @@ jobs:
 
       - name: Lint code for consistent style
         run: bin/rubocop -f github
-
-  specs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Rspec Tests
-        run: bundle exec rspec
