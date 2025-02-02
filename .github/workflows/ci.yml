@@ -53,3 +53,14 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+  specs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rspec Tests
+        run: |
+          bundle exec rspec --tag ~type:feature
+        env:
+          RAILS_ENV: test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+
