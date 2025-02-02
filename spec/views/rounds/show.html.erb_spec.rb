@@ -2,9 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "rounds/show", type: :view do
   before(:each) do
-    assign(:round, Round.create!(
-      season: nil
-    ))
+    assign(:round, create(:round))
   end
 
   it "renders attributes in <p>" do

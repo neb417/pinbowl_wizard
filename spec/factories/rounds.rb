@@ -15,6 +15,7 @@
 
 FactoryBot.define do
   factory :round do
-    season { nil }
+    association :season
+    number { Faker::Number.number(digits: 1) }
   end
 end

@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "rounds/edit", type: :view do
-  let(:round) {
-    Round.create!(
-      season: nil
-    )
-  }
+  let(:round) { create(:round) }
 
   before(:each) do
     assign(:round, round)
