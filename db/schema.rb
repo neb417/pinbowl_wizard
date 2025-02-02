@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_02_022044) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_02_143024) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_022044) do
     t.datetime "updated_at", null: false
     t.index ["machine_id"], name: "index_matches_on_machine_id"
     t.index ["round_id"], name: "index_matches_on_round_id"
+  end
+
+  create_table "player_matches", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "match_id", null: false
+    t.integer "score"
+    t.integer "result", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_player_matches_on_match_id"
+    t.index ["user_id"], name: "index_player_matches_on_user_id"
   end
 
   create_table "players", force: :cascade do |t|
@@ -59,5 +70,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_022044) do
 
   add_foreign_key "matches", "machines"
   add_foreign_key "matches", "rounds"
+  add_foreign_key "player_matches", "matches"
+  add_foreign_key "player_matches", "users"
   add_foreign_key "rounds", "seasons"
 end

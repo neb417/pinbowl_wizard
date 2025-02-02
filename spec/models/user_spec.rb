@@ -2,7 +2,7 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  first_name :string
 #  last_name  :string
 #  created_at :datetime         not null
@@ -12,5 +12,5 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { is_expected.to have_many(:player_matches) }
 end
