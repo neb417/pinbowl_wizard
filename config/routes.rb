@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root  "landing#index"
+  root "landing#index"
   resources :matches
   resources :machines
   resources :users
