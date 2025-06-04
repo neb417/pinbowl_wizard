@@ -21,6 +21,6 @@ FactoryBot.define do
   factory :season do
     association :organization
 
-    title { "MyString" }
+    title { Faker::FunnyName.name }
   end
 end
