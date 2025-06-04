@@ -21,7 +21,6 @@ class SeasonsController < ApplicationController
 
   # POST /seasons or /seasons.json
   def create
-    # binding.pry
     @season = Season.new(season_params)
 
     respond_to do |format|
