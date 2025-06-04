@@ -12,7 +12,7 @@
 
 FactoryBot.define do
   factory :user do
-    first_name { "MyString" }
-    last_name { "MyString" }
+    first_name { Faker::FunnyName.first_name }
+    last_name { Faker::FunnyName.last_name }
   end
 end

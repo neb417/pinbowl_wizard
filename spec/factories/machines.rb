@@ -10,6 +10,6 @@
 
 FactoryBot.define do
   factory :machine do
-    name { "MyString" }
+    name { Faker::Game.title }
   end
 end
