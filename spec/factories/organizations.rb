@@ -7,6 +7,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-class Organization < ApplicationRecord
-  has_many :seasons
+FactoryBot.define do
+  factory :organization do
+    name { "MyString" }
+  end
 end

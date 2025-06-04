@@ -16,17 +16,14 @@ RSpec.describe "/seasons", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Season. As you add validations to Season, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:org) { create(:organization) }
+  let(:valid_attributes) { { title: "Season", organization_id: org.id } }
+  let!(:season) { create(:season, valid_attributes) }
+  let(:invalid_attributes) { { title: "", organization_id: org.id } }
+  let!(:invalid_season) { build(:season, invalid_attributes) }
 
   describe "GET /index" do
     it "renders a successful response" do
-      Season.create! valid_attributes
       get seasons_url
       expect(response).to be_successful
     end
@@ -34,7 +31,6 @@ RSpec.describe "/seasons", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      season = Season.create! valid_attributes
       get season_url(season)
       expect(response).to be_successful
     end
@@ -49,7 +45,6 @@ RSpec.describe "/seasons", type: :request do
 
   describe "GET /edit" do
     it "renders a successful response" do
-      season = Season.create! valid_attributes
       get edit_season_url(season)
       expect(response).to be_successful
     end
@@ -86,18 +81,16 @@ RSpec.describe "/seasons", type: :request do
   describe "PATCH /update" do
     context "with valid parameters" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        { title: "New Season" }
       }
 
       it "updates the requested season" do
-        season = Season.create! valid_attributes
         patch season_url(season), params: { season: new_attributes }
         season.reload
         skip("Add assertions for updated state")
       end
 
       it "redirects to the season" do
-        season = Season.create! valid_attributes
         patch season_url(season), params: { season: new_attributes }
         season.reload
         expect(response).to redirect_to(season_url(season))
@@ -106,7 +99,6 @@ RSpec.describe "/seasons", type: :request do
 
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        season = Season.create! valid_attributes
         patch season_url(season), params: { season: invalid_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -115,14 +107,12 @@ RSpec.describe "/seasons", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested season" do
-      season = Season.create! valid_attributes
       expect {
         delete season_url(season)
       }.to change(Season, :count).by(-1)
     end
 
     it "redirects to the seasons list" do
-      season = Season.create! valid_attributes
       delete season_url(season)
       expect(response).to redirect_to(seasons_url)
     end

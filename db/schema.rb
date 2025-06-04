@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_02_143024) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_04_155020) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_143024) do
     t.datetime "updated_at", null: false
     t.index ["machine_id"], name: "index_matches_on_machine_id"
     t.index ["round_id"], name: "index_matches_on_round_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "player_matches", force: :cascade do |t|
@@ -59,6 +65,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_143024) do
     t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id"
+    t.index ["organization_id"], name: "index_seasons_on_organization_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -66,6 +74,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_143024) do
     t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "current_organization_id"
   end
 
   add_foreign_key "matches", "machines"
@@ -73,4 +82,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_02_143024) do
   add_foreign_key "player_matches", "matches"
   add_foreign_key "player_matches", "users"
   add_foreign_key "rounds", "seasons"
+  add_foreign_key "seasons", "organizations"
 end
