@@ -10,6 +10,10 @@
 #  updated_at              :datetime         not null
 #  current_organization_id :integer
 #
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
+#
 
 class User < ApplicationRecord
   has_many :player_matches
