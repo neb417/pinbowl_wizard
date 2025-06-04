@@ -82,7 +82,9 @@ RSpec.describe "/users", type: :request do
       it "updates the requested user" do
         patch user_url(user), params: { user: new_attributes }
         user.reload
-        skip("Add assertions for updated state")
+        expect(user.first_name).to eq(new_attributes[:first_name])
+        expect(user.last_name).to eq(new_attributes[:last_name])
+        expect(user.email).to eq(new_attributes[:email])
       end
 
       it "redirects to the user" do
