@@ -21,6 +21,7 @@ class SeasonsController < ApplicationController
 
   # POST /seasons or /seasons.json
   def create
+    # binding.pry
     @season = Season.new(season_params)
 
     respond_to do |format|
@@ -65,6 +66,6 @@ class SeasonsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def season_params
-      params.expect(season: [ :title ])
+      params.expect(season: [ :title, :organization_id ])
     end
 end

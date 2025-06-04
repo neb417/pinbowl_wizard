@@ -2,14 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "seasons/index", type: :view do
   before(:each) do
-    assign(:seasons, [
-      Season.create!(
-        title: "Title"
-      ),
-      Season.create!(
-        title: "Title"
-      )
-    ])
+    assign(:seasons, create_list(:season, 2))
   end
 
   it "renders a list of seasons" do

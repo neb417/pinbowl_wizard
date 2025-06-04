@@ -1,11 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "seasons/edit", type: :view do
-  let(:season) {
-    Season.create!(
-      title: "MyString"
-    )
-  }
+  let(:season) { create(:season) }
 
   before(:each) do
     assign(:season, season)
