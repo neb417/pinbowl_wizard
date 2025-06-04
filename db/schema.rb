@@ -76,6 +76,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_04_173515) do
     t.datetime "updated_at", null: false
     t.integer "current_organization_id"
     t.string "email"
+    t.index ["email"], name: "index_users_on_email", unique: true
   end
 
   add_foreign_key "matches", "machines"
