@@ -89,6 +89,7 @@ GEM
     brakeman (7.0.2)
       racc
     builder (3.3.0)
+    byebug (12.0.0)
     capybara (3.40.0)
       addressable
       matrix
@@ -138,6 +139,7 @@ GEM
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
       railties (>= 6.0.0)
+    interception (0.5)
     io-console (0.8.0)
     irb (1.15.2)
       pp (>= 0.6.0)
@@ -231,8 +233,14 @@ GEM
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
+    pry-byebug (3.11.0)
+      byebug (~> 12.0)
+      pry (>= 0.13, < 0.16)
     pry-rails (0.3.11)
       pry (>= 0.13.0)
+    pry-rescue (1.6.0)
+      interception (>= 0.5)
+      pry (>= 0.12.0)
     psych (5.2.6)
       date
       stringio
@@ -429,7 +437,9 @@ DEPENDENCIES
   orderly
   pg (~> 1.1)
   propshaft
+  pry-byebug
   pry-rails
+  pry-rescue
   puma (>= 5.0)
   rails (~> 8.0.2)
   rspec-rails
