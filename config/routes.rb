@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "landing#index"
+  root "dashboard#index"
   resource :session
   resources :passwords, param: :token
   resources :organizations
