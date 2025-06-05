@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "/registrations", type: :request do
-
   describe "GET /new" do
     it "renders a successful response" do
       get new_registration_path
