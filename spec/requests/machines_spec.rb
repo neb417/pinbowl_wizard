@@ -25,6 +25,10 @@ RSpec.describe "/machines", type: :request do
     skip("Add a hash of attributes invalid for your model")
   }
 
+  before(:each) do
+    sign_in_as(user)
+  end
+
   describe "GET /index" do
     it "renders a successful response" do
       Machine.create! valid_attributes
