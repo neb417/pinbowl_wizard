@@ -76,4 +76,5 @@ group :test do
   gem "factory_bot_rails"
   gem "launchy"
   gem "orderly"
+  gem "rails-controller-testing"
 end
