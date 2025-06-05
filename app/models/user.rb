@@ -22,5 +22,5 @@ class User < ApplicationRecord
   belongs_to :current_organization, class_name: "Organization", optional: true
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
-  validates :email_address, presence: true
+  validates :email_address, presence: true, uniqueness: true
 end
