@@ -13,6 +13,11 @@ require 'rails_helper'
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/matches", type: :request do
+  let!(:user) { create(:user) }
+
+  before(:each) do
+    sign_in_as(user)
+  end
   # This should return the minimal set of attributes required to create a valid
   # Match. As you add validations to Match, be sure to
   # adjust the attributes here as well.
