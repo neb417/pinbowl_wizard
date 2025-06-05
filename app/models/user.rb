@@ -16,6 +16,7 @@
 #  index_users_on_email_address  (email_address) UNIQUE
 #
 class User < ApplicationRecord
+  rolify
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :player_matches
