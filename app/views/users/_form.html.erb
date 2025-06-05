@@ -1,4 +1,5 @@
-<%= form_with(model: user) do |form| %>
+<% # locals: (user:, form_submit_url: nil) %>
+<%= form_with(model: user, url: form_submit_url) do |form| %>
   <% if user.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -37,6 +38,7 @@
   </div>
 
   <div>
-    <%= form.submit %>
+    <% button_label = form_submit_url.present? ? "Sign Up" : "Create User" %>
+    <%= form.submit button_label %>
   </div>
 <% end %>

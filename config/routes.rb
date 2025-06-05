@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
+  root "landing#index"
   resource :session
   resources :passwords, param: :token
   resources :organizations
-  root "landing#index"
   resources :matches
   resources :machines
   resources :users
   resources :rounds
   resources :seasons
+  resources :registrations, only: %i[ new create ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
