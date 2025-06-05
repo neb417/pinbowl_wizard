@@ -8,5 +8,6 @@
 #  updated_at :datetime         not null
 #
 class Organization < ApplicationRecord
+  resourcify
   has_many :seasons
 end
