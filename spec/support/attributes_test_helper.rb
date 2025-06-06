@@ -58,4 +58,16 @@ module AttributesTestHelper
       password_confirmation: 'does not match'
     }
   end
+
+  def valid_round_attributes
+    { season_id: create(:season).id, number: Faker::Number.number(digits: 1) }
+  end
+
+  def invalid_round_attributes
+    { season_id: nil, number: nil }
+  end
+
+  def edit_round_attributes
+    { season_id: create(:season).id, number: Faker::Number.number(digits: 1) }
+  end
 end
