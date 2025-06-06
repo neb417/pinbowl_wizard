@@ -21,18 +21,11 @@ class OrganizationsController < ApplicationController
 
   # POST /organizations or /organizations.json
   def create
-    @organization = Organization.new(organization_params)
-
-    respond_to do |format|
-      if @organization.save
-        Current.user.add_role(:account, @organization)
-        Current.user.add_role(:owner, @organization)
-        Current.user.update(current_organization: @organization)
-        format.html { redirect_to dashboard_path }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
-      end
+    @organization = OrganizationCreator.call(user: Current.user, org_params: organization_params)
+    if @organization.persisted?
+      redirect_to dashboard_path
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
