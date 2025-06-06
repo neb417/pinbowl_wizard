@@ -23,6 +23,7 @@
   </head>
 
   <body>
-    <%= yield %>
+  <%= link_to "Sign out", session_path, data: { turbo_method: :delete } %>
+  <%= yield %>
   </body>
 </html>
