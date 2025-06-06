@@ -82,4 +82,17 @@ module AttributesTestHelper
   def edit_season_attributes
     { organization_id: create(:organization).id, title: Faker::FunnyName.name }
   end
+
+  def valid_user_attributes
+    password = Faker::Internet.password
+    { first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email_address: Faker::Internet.email, password: password, password_confirmation: password }
+  end
+
+  def invalid_user_attributes
+    { first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email_address: "" }
+  end
+
+  def edit_user_attributes
+    { first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email_address: Faker::Internet.email }
+  end
 end

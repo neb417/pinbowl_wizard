@@ -1,9 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "/users", type: :request do
-  let(:valid_attributes) { { first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email_address: Faker::Internet.email } }
-  let(:invalid_attributes) { { first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email_address: "" } }
-  let!(:user) { create(:user, valid_attributes) }
+  let!(:user) { create(:user) }
+  let(:invalid_attributes) { invalid_user_attributes }
   let!(:invalid_user) { build(:user, invalid_attributes) }
 
   describe "GET /index" do
@@ -42,7 +41,7 @@ RSpec.describe "/users", type: :request do
     before(:each) { sign_in_as(user) }
 
     context "with valid parameters" do
-      let!(:create_attributes) { { first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email_address: Faker::Internet.email, password: Faker::Internet.password } }
+      let!(:create_attributes) { valid_user_attributes }
 
       it "creates a new User" do
         expect {
@@ -74,7 +73,7 @@ RSpec.describe "/users", type: :request do
     before(:each) { sign_in_as(user) }
 
     context "with valid parameters" do
-      let(:new_attributes) { { first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email_address: Faker::Internet.email } }
+      let(:new_attributes) { edit_user_attributes }
 
       it "updates the requested user" do
         patch user_url(user), params: { user: new_attributes }
