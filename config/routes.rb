@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "dashboard#index"
+  root "home#index"
   resource :session
   resources :passwords, param: :token
   resources :organizations
