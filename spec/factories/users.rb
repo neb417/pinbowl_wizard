@@ -22,5 +22,32 @@ FactoryBot.define do
     last_name { Faker::Name.last_name }
     sequence(:email_address) { |n| "user#{n}@example.com" }
     password_digest { Faker::Internet.password }
+
+
+    factory :account_user do
+      transient do
+        organization { create(:organization) }
+      end
+
+      after(:create) do |user, evaluator|
+        account_role = create(:account_role)
+
+        user.add_role(account_role.name, evaluator.organization)
+      end
+    end
+
+    factory :admin_user do
+      transient do
+        organization { create(:organization) }
+      end
+
+      after(:create) do |user, evaluator|
+        account_role = create(:account_role)
+        admin_role = create(:admin_role)
+
+        user.add_role(account_role.name, evaluator.organization)
+        user.add_role(admin_role.name, evaluator.organization)
+      end
+    end
   end
 end

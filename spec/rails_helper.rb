@@ -24,6 +24,8 @@ require 'rspec/rails'
 # require only the support files necessary.
 
 require 'support/configs/database_cleaner'
+require "pundit/rspec"
+
 
 Rails.root.glob('spec/support/**/*.rb').sort_by(&:to_s).each { |f| require f }
 
