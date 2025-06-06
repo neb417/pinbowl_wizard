@@ -22,4 +22,12 @@ module AttributesTestHelper
   def edit_match_attributes
     { round_id: create(:round).id, machine_id: create(:machine).id }
   end
+
+  def valid_membership_attributes(org_code)
+    { organization_code: org_code }
+  end
+
+  def invalid_membership_attributes
+    { organization_code: "" }
+  end
 end
