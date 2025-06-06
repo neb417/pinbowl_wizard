@@ -11,9 +11,11 @@
 # Indexes
 #
 #  index_organizations_on_code  (code) UNIQUE
+#  index_organizations_on_name  (name) UNIQUE
 #
 class Organization < ApplicationRecord
   resourcify
   has_many :seasons
+  validates :name, presence: true, uniqueness: true
   validates :code, presence: true, uniqueness: true
 end

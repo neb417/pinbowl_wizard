@@ -11,6 +11,7 @@
 # Indexes
 #
 #  index_organizations_on_code  (code) UNIQUE
+#  index_organizations_on_name  (name) UNIQUE
 #
 require 'rails_helper'
 
@@ -18,6 +19,7 @@ RSpec.describe Organization, type: :model do
   it { is_expected.to have_many(:seasons) }
 
   context "validation" do
+    it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:code) }
   end
 end

@@ -11,6 +11,7 @@
 # Indexes
 #
 #  index_organizations_on_code  (code) UNIQUE
+#  index_organizations_on_name  (name) UNIQUE
 #
 FactoryBot.define do
   factory :organization do
