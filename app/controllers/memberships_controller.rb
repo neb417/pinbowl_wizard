@@ -7,8 +7,7 @@ class MembershipsController < ApplicationController
     organization = Organization.find_by(code: membership_params[:organization_code])
 
     if organization.present?
-      Membership.create(user: Current.user, organization: organization)
-      Current.user.add_role(:account, organization)
+      MembershipCreator.call(user: Current.user, organization: organization)
       redirect_to dashboard_path, notice: "Joined organization!"
     else
       @membership = Membership.new
