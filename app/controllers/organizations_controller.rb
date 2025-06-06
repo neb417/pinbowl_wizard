@@ -26,7 +26,7 @@ class OrganizationsController < ApplicationController
     respond_to do |format|
       if @organization.save
         Current.user.add_role(:account, @organization)
-        Current.user.add_role(:admin, @organization)
+        Current.user.add_role(:owner, @organization)
         Current.user.update(current_organization: @organization)
         redirect_to dashboard_path
       else

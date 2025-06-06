@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe "home/dashboard", type: :view do
   let(:org) { create(:organization) }
-  let(:admin) { create(:admin_user, current_organization: org, organization: org) }
+  let(:owner) { create(:owner_user, current_organization: org, organization: org) }
 
   before do
-    sign_in_as(admin)
+    sign_in_as(owner)
     assign(:organization, org)
   end
 

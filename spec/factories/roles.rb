@@ -4,6 +4,10 @@ FactoryBot.define do
       name { 'admin' }
     end
 
+    factory :owner_role do
+      name { 'owner' }
+    end
+
     factory :account_role do
       name { 'account' }
     end

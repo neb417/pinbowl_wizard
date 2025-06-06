@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "/", type: :request do
   let(:org) { create(:organization) }
-  let(:admin) { create(:admin_user, organization: org, current_organization: org) }
+  let(:owner) { create(:owner_user, organization: org, current_organization: org) }
   let(:user) { create(:user) }
 
   describe "GET/index" do
@@ -14,7 +14,7 @@ RSpec.describe "/", type: :request do
     end
 
     it "renders successful response" do
-      sign_in_as(admin)
+      sign_in_as(owner)
       get root_path
       expect(response).to redirect_to(dashboard_path)
     end
@@ -28,7 +28,7 @@ RSpec.describe "/", type: :request do
     end
 
     it "renders successful response" do
-      sign_in_as(admin)
+      sign_in_as(owner)
       get dashboard_path
       expect(response).to be_successful
       expect(response).to render_template(:dashboard)
