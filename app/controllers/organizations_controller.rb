@@ -28,7 +28,7 @@ class OrganizationsController < ApplicationController
         Current.user.add_role(:account, @organization)
         Current.user.add_role(:owner, @organization)
         Current.user.update(current_organization: @organization)
-        redirect_to dashboard_path
+        format.html { redirect_to dashboard_path }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @organization.errors, status: :unprocessable_entity }
