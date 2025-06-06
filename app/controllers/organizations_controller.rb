@@ -3,6 +3,7 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations or /organizations.json
   def index
+    authorize Current.user, policy_class: OrganizationPolicy
     @organizations = Organization.all
   end
 

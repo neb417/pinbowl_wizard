@@ -18,20 +18,10 @@ RSpec.describe "/rounds", type: :request do
   before(:each) do
     sign_in_as(user)
   end
-  # This should return the minimal set of attributes required to create a valid
-  # Round. As you add validations to Round, be sure to
-  # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
 
   describe "GET /index" do
     it "renders a successful response" do
-      Round.create! valid_attributes
+      Round.create! valid_round_attributes
       get rounds_url
       expect(response).to be_successful
     end
@@ -39,7 +29,7 @@ RSpec.describe "/rounds", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      round = Round.create! valid_attributes
+      round = Round.create! valid_round_attributes
       get round_url(round)
       expect(response).to be_successful
     end
@@ -54,7 +44,7 @@ RSpec.describe "/rounds", type: :request do
 
   describe "GET /edit" do
     it "renders a successful response" do
-      round = Round.create! valid_attributes
+      round = Round.create! valid_round_attributes
       get edit_round_url(round)
       expect(response).to be_successful
     end
@@ -64,12 +54,12 @@ RSpec.describe "/rounds", type: :request do
     context "with valid parameters" do
       it "creates a new Round" do
         expect {
-          post rounds_url, params: { round: valid_attributes }
+          post rounds_url, params: { round: valid_round_attributes }
         }.to change(Round, :count).by(1)
       end
 
       it "redirects to the created round" do
-        post rounds_url, params: { round: valid_attributes }
+        post rounds_url, params: { round: valid_round_attributes }
         expect(response).to redirect_to(round_url(Round.last))
       end
     end
@@ -77,12 +67,12 @@ RSpec.describe "/rounds", type: :request do
     context "with invalid parameters" do
       it "does not create a new Round" do
         expect {
-          post rounds_url, params: { round: invalid_attributes }
+          post rounds_url, params: { round: invalid_round_attributes }
         }.to change(Round, :count).by(0)
       end
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
-        post rounds_url, params: { round: invalid_attributes }
+        post rounds_url, params: { round: invalid_round_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -90,19 +80,19 @@ RSpec.describe "/rounds", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:new_attributes) { edit_round_attributes }
 
       it "updates the requested round" do
-        round = Round.create! valid_attributes
+        round = Round.create! valid_round_attributes
+        expect(round.season_id).to_not eq(new_attributes[:season_id])
+
         patch round_url(round), params: { round: new_attributes }
         round.reload
-        skip("Add assertions for updated state")
+        expect(round.season_id).to eq(new_attributes[:season_id])
       end
 
       it "redirects to the round" do
-        round = Round.create! valid_attributes
+        round = Round.create! valid_round_attributes
         patch round_url(round), params: { round: new_attributes }
         round.reload
         expect(response).to redirect_to(round_url(round))
@@ -111,8 +101,8 @@ RSpec.describe "/rounds", type: :request do
 
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
-        round = Round.create! valid_attributes
-        patch round_url(round), params: { round: invalid_attributes }
+        round = Round.create! valid_round_attributes
+        patch round_url(round), params: { round: invalid_round_attributes }
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -120,14 +110,14 @@ RSpec.describe "/rounds", type: :request do
 
   describe "DELETE /destroy" do
     it "destroys the requested round" do
-      round = Round.create! valid_attributes
+      round = Round.create! valid_round_attributes
       expect {
         delete round_url(round)
       }.to change(Round, :count).by(-1)
     end
 
     it "redirects to the rounds list" do
-      round = Round.create! valid_attributes
+      round = Round.create! valid_round_attributes
       delete round_url(round)
       expect(response).to redirect_to(rounds_url)
     end

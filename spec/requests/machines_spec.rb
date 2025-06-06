@@ -17,13 +17,8 @@ RSpec.describe "/machines", type: :request do
   # Machine. As you add validations to Machine, be sure to
   # adjust the attributes here as well.
   let!(:user) { create(:user) }
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:valid_attributes) { valid_machine_attributes }
+  let(:invalid_attributes) { invalid_machine_attributes }
 
   before(:each) do
     sign_in_as(user)
@@ -90,15 +85,16 @@ RSpec.describe "/machines", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:new_attributes) { edit_machine_attributes }
 
       it "updates the requested machine" do
         machine = Machine.create! valid_attributes
+        expect(machine.name).to_not eq(new_attributes[:name])
+
         patch machine_url(machine), params: { machine: new_attributes }
+
         machine.reload
-        skip("Add assertions for updated state")
+        expect(machine.name).to eq(new_attributes[:name])
       end
 
       it "redirects to the machine" do

@@ -18,13 +18,10 @@ RSpec.describe "/seasons", type: :request do
   before(:each) do
     sign_in_as(user)
   end
-  # This should return the minimal set of attributes required to create a valid
-  # Season. As you add validations to Season, be sure to
-  # adjust the attributes here as well.
-  let(:org) { create(:organization) }
-  let(:valid_attributes) { { title: "Season", organization_id: org.id } }
+
+  let(:valid_attributes) { valid_season_attributes }
   let!(:season) { create(:season, valid_attributes) }
-  let(:invalid_attributes) { { title: "", organization_id: org.id } }
+  let(:invalid_attributes) { invalid_season_attributes }
   let!(:invalid_season) { build(:season, invalid_attributes) }
 
   describe "GET /index" do
@@ -85,14 +82,15 @@ RSpec.describe "/seasons", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) {
-        { title: "New Season" }
-      }
+      let(:new_attributes) { edit_season_attributes }
 
       it "updates the requested season" do
+        expect(season.title).to_not eq(new_attributes[:title])
+
         patch season_url(season), params: { season: new_attributes }
+
         season.reload
-        skip("Add assertions for updated state")
+        expect(season.title).to eq(new_attributes[:title])
       end
 
       it "redirects to the season" do

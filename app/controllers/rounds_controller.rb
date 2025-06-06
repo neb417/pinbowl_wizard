@@ -65,6 +65,6 @@ class RoundsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def round_params
-      params.expect(round: [ :season_id ])
+      params.expect(round: [ :season_id, :number ])
     end
 end
