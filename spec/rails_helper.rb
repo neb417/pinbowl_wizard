@@ -75,6 +75,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 
   config.include SessionTestHelper
+  config.include ParamsTestHelper
 end
 
 Shoulda::Matchers.configure do |config|
