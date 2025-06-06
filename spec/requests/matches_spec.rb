@@ -21,13 +21,8 @@ RSpec.describe "/matches", type: :request do
   # This should return the minimal set of attributes required to create a valid
   # Match. As you add validations to Match, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
-
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:valid_attributes) { valid_match_attributes }
+  let(:invalid_attributes) { invalid_match_attributes }
 
   describe "GET /index" do
     it "renders a successful response" do
@@ -90,15 +85,14 @@ RSpec.describe "/matches", type: :request do
 
   describe "PATCH /update" do
     context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
+      let(:new_attributes) { edit_match_attributes }
 
       it "updates the requested match" do
         match = Match.create! valid_attributes
         patch match_url(match), params: { match: new_attributes }
         match.reload
-        skip("Add assertions for updated state")
+        expect(match.round_id).to eq(new_attributes[:round_id])
+        expect(match.machine_id).to eq(new_attributes[:machine_id])
       end
 
       it "redirects to the match" do
