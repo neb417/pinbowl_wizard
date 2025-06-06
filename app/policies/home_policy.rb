@@ -6,11 +6,12 @@ class HomePolicy < ApplicationPolicy
   # https://gist.github.com/Burgestrand/4b4bc22f31c8a95c425fc0e30d7ef1f5
 
   def dashboard?
+    return false unless user.current_organization.present?
+
     can_access_dashboard?
   end
 
   private
-
   def organization
     user.current_organization
   end
