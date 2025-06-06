@@ -89,9 +89,12 @@ RSpec.describe "/machines", type: :request do
 
       it "updates the requested machine" do
         machine = Machine.create! valid_attributes
+        expect(machine.name).to_not eq(new_attributes[:name])
+
         patch machine_url(machine), params: { machine: new_attributes }
+
         machine.reload
-        skip("Add assertions for updated state")
+        expect(machine.name).to eq(new_attributes[:name])
       end
 
       it "redirects to the machine" do
