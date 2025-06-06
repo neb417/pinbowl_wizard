@@ -18,8 +18,11 @@
 class User < ApplicationRecord
   rolify
   has_secure_password
+
   has_many :sessions, dependent: :destroy
   has_many :player_matches
+  has_many :memberships
+  has_many :organizations, through: :memberships
   belongs_to :current_organization, class_name: "Organization", optional: true
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }

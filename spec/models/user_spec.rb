@@ -19,6 +19,8 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   it { is_expected.to have_many(:player_matches) }
+  it { is_expected.to have_many(:memberships) }
+  it { is_expected.to have_many(:organizations).through(:memberships) }
 
   context "validations" do
     it { is_expected.to validate_presence_of(:first_name) }

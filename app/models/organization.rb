@@ -15,7 +15,11 @@
 #
 class Organization < ApplicationRecord
   resourcify
+
   has_many :seasons
+  has_many :memberships
+  has_many :users, through: :memberships
+
   validates :name, presence: true, uniqueness: true
   validates :code, presence: true, uniqueness: true,
             format: { with: /\A[\w\-]+\z/, message: "can only contain letters, numbers, - and _" },
