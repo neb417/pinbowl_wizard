@@ -22,23 +22,23 @@ RSpec.describe "Organizations", type: :request do
 
       it "creates a new organization on successful POST" do
         expect {
-          post organizations_path, params: { organization: valid_organization_attributes}
+          post organizations_path, params: { organization: valid_organization_attributes }
         }.to change(Organization, :count).by(1)
       end
 
       it "redirects on successful POST" do
-        post organizations_path, params: { organization: valid_organization_attributes}
+        post organizations_path, params: { organization: valid_organization_attributes }
         expect(response).to redirect_to(dashboard_path)
       end
 
       it "does not create a new organization on unsuccessful POST" do
         expect {
-          post organizations_path, params: { organization: invalid_organization_attributes}
+          post organizations_path, params: { organization: invalid_organization_attributes }
         }.to_not change(Organization, :count)
       end
 
       it "renders new on fail to POST" do
-        post organizations_path, params: { organization: invalid_organization_attributes}
+        post organizations_path, params: { organization: invalid_organization_attributes }
         expect(response).to render_template(:new)
       end
     end

@@ -38,4 +38,24 @@ module AttributesTestHelper
   def invalid_organization_attributes
     { name: nil, code: nil }
   end
+
+  def valid_registration_params
+    {
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email_address: Faker::Internet.email,
+      password: 'password',
+      password_confirmation: 'password'
+    }
+  end
+
+  def invalid_registration_params
+    {
+      first_name: Faker::Name.first_name,
+      last_name: Faker::Name.last_name,
+      email_address: Faker::Internet.email,
+      password: 'password',
+      password_confirmation: 'does not match'
+    }
+  end
 end
