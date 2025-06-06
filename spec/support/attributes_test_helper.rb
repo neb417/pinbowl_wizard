@@ -70,4 +70,16 @@ module AttributesTestHelper
   def edit_round_attributes
     { season_id: create(:season).id, number: Faker::Number.number(digits: 1) }
   end
+
+  def valid_season_attributes
+    { title: Faker::FunnyName.name, organization_id: create(:organization).id }
+  end
+
+  def invalid_season_attributes
+    { title: nil, organization_id: nil }
+  end
+
+  def edit_season_attributes
+    { organization_id: create(:organization).id, title: Faker::FunnyName.name }
+  end
 end
