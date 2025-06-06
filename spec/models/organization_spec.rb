@@ -21,6 +21,21 @@ RSpec.describe Organization, type: :model do
   context "validation" do
     it { is_expected.to validate_presence_of(:name) }
     it { is_expected.to validate_presence_of(:code) }
+
+    describe "valid organization codes" do
+      it { expect(Organization.new(name: 'Test', code: "").valid?).to be_falsey }
+      it { expect(Organization.new(name: 'Test', code: "1").valid?).to be_falsey }
+      it { expect(Organization.new(name: 'Test', code: "12").valid?).to be_falsey }
+      it { expect(Organization.new(name: 'Test', code: "123").valid?).to be_falsey }
+      it { expect(Organization.new(name: 'Test', code: "1234").valid?).to be_truthy }
+      it { expect(Organization.new(name: 'Test', code: "1_2_4").valid?).to be_truthy }
+      it { expect(Organization.new(name: 'Test', code: "1-2-4").valid?).to be_truthy }
+      it { expect(Organization.new(name: 'Test', code: "1*2*4").valid?).to be_falsey }
+      it { expect(Organization.new(name: 'Test', code: "(1234)").valid?).to be_falsey }
+      it { expect(Organization.new(name: 'Test', code: "%1234").valid?).to be_falsey }
+      it { expect(Organization.new(name: 'Test', code: "#1234").valid?).to be_falsey }
+      it { expect(Organization.new(name: 'Test', code: "^1234").valid?).to be_falsey }
+    end
   end
 
   context "instance methods" do
