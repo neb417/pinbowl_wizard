@@ -30,4 +30,12 @@ module AttributesTestHelper
   def invalid_membership_attributes
     { organization_code: "" }
   end
+
+  def valid_organization_attributes
+    { name: Faker::Company.name, code: "12345" }
+  end
+
+  def invalid_organization_attributes
+    { name: nil, code: nil }
+  end
 end

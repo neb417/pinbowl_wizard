@@ -19,7 +19,7 @@ RSpec.describe "Memberships", type: :request do
   describe "POST /create" do
     it "creates a membership on successful POST" do
       expect {
-      post memberships_path, params: { membership: valid_membership_attributes(org.code) }
+        post memberships_path, params: { membership: valid_membership_attributes(org.code) }
       }.to change(Membership, :count).by(1)
     end
 
