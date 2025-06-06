@@ -9,14 +9,10 @@ RSpec.describe "matches/index", type: :view do
     assign(:matches, matches)
   end
 
-  xit "renders a list of matches" do
+  it "renders a list of matches" do
     render
     cell_selector = 'div>p'
-    assert_select cell_selector, text: Regexp.new(nil.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(nil.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(2.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(3.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(nil.to_s), count: 2
-    assert_select cell_selector, text: Regexp.new(nil.to_s), count: 2
+    assert_select cell_selector, text: Regexp.new("Round".to_s), count: 2
+    assert_select cell_selector, text: Regexp.new("Machine".to_s), count: 2
   end
 end
