@@ -17,6 +17,8 @@ require 'rails_helper'
 
 RSpec.describe Organization, type: :model do
   it { is_expected.to have_many(:seasons) }
+  it { is_expected.to have_many(:memberships) }
+  it { is_expected.to have_many(:users).through(:memberships) }
 
   context "validation" do
     it { is_expected.to validate_presence_of(:name) }
