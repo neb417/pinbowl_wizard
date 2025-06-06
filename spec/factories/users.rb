@@ -24,6 +24,14 @@ FactoryBot.define do
     password_digest { Faker::Internet.password }
 
 
+    factory :admin_user do
+      after(:create) do |user, _evaluator|
+        admin_role = create(:admin_role)
+
+        user.add_role(admin_role.name)
+      end
+    end
+
     factory :account_user do
       transient do
         organization { create(:organization) }
