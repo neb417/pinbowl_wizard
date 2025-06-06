@@ -18,4 +18,12 @@ class Organization < ApplicationRecord
   has_many :seasons
   validates :name, presence: true, uniqueness: true
   validates :code, presence: true, uniqueness: true
+
+  def accounts
+    User.with_role(:account, self)
+  end
+
+  def admin
+    User.with_role(:admin, self)
+  end
 end
