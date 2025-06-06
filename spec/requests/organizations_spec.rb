@@ -1,13 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "Organizations", type: :request do
-  let(:user) { create(:user) }
-
-  before(:each) do
-    sign_in_as(user)
-  end
-
   context "actions not requiring authorization" do
+    before(:each) do
+      sign_in_as(create(:user))
+    end
+
     describe "GET /new" do
       it "renders successful response" do
         get new_organization_path
@@ -47,6 +45,7 @@ RSpec.describe "Organizations", type: :request do
   context "actions requiring authorization" do
     describe "GET /index" do
       it "renders successful response" do
+        sign_in_as(create(:admin_user))
         get organizations_path
         expect(response).to be_successful
         expect(response).to render_template(:index)
