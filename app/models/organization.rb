@@ -17,7 +17,9 @@ class Organization < ApplicationRecord
   resourcify
   has_many :seasons
   validates :name, presence: true, uniqueness: true
-  validates :code, presence: true, uniqueness: true
+  validates :code, presence: true, uniqueness: true,
+            format: { with: /\A[\w\-]+\z/, message: "can only contain letters, numbers, - and _" },
+            length: { minimum: 4 }
 
   def accounts
     User.with_role(:account, self)
