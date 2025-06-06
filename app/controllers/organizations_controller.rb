@@ -25,8 +25,10 @@ class OrganizationsController < ApplicationController
 
     respond_to do |format|
       if @organization.save
-        format.html { redirect_to @organization, notice: "Organization was successfully created." }
-        format.json { render :show, status: :created, location: @organization }
+        Current.user.add_role(:account, @organization)
+        Current.user.add_role(:admin, @organization)
+        Current.user.update(current_organization: @organization)
+        redirect_to dashboard_path
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @organization.errors, status: :unprocessable_entity }
