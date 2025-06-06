@@ -89,7 +89,11 @@ RSpec.describe "/matches", type: :request do
 
       it "updates the requested match" do
         match = Match.create! valid_attributes
+        expect(match.round_id).to_not eq(new_attributes[:round_id])
+        expect(match.machine_id).to_not eq(new_attributes[:machine_id])
+
         patch match_url(match), params: { match: new_attributes }
+
         match.reload
         expect(match.round_id).to eq(new_attributes[:round_id])
         expect(match.machine_id).to eq(new_attributes[:machine_id])
