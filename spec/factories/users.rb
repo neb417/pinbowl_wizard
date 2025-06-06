@@ -36,17 +36,17 @@ FactoryBot.define do
       end
     end
 
-    factory :admin_user do
+    factory :owner_user do
       transient do
         organization { create(:organization) }
       end
 
       after(:create) do |user, evaluator|
         account_role = create(:account_role)
-        admin_role = create(:admin_role)
+        owner_role = create(:owner_role)
 
         user.add_role(account_role.name, evaluator.organization)
-        user.add_role(admin_role.name, evaluator.organization)
+        user.add_role(owner_role.name, evaluator.organization)
       end
     end
   end

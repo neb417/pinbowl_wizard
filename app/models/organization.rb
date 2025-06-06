@@ -23,7 +23,7 @@ class Organization < ApplicationRecord
     User.with_role(:account, self)
   end
 
-  def admins
-    User.with_role(:admin, self)
+  def owners
+    User.with_role(:owner, self)
   end
 end
