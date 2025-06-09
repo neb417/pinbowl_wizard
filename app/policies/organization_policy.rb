@@ -9,10 +9,23 @@ class OrganizationPolicy < ApplicationPolicy
     user.has_role?(:admin)
   end
 
-  class Scope < ApplicationPolicy::Scope
-    # NOTE: Be explicit about which records you allow access to!
-    # def resolve
-    #   scope.all
-    # end
+  def edit?
+    is_an_admin_or_owner?
+  end
+
+  def update?
+    edit?
+  end
+
+  def destroy?
+    is_an_admin_or_owner?
+  end
+
+  private
+
+  alias_method :organization, :record
+
+  def is_an_admin_or_owner?
+    user.has_role?(:admin) || user.has_role?(:owner, organization)
   end
 end
