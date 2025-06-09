@@ -13,7 +13,7 @@ RSpec.describe "/", type: :request do
       expect(response).to render_template(:index)
     end
 
-    it "renders successful response" do
+    it "redirects to dashboard when current organization exists" do
       sign_in_as(owner)
       get root_path
       expect(response).to redirect_to(dashboard_path)
