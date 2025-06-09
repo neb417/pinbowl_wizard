@@ -18,6 +18,7 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations/1/edit
   def edit
+    authorize @organization
   end
 
   # POST /organizations or /organizations.json
@@ -32,6 +33,8 @@ class OrganizationsController < ApplicationController
 
   # PATCH/PUT /organizations/1 or /organizations/1.json
   def update
+    authorize @organization
+
     respond_to do |format|
       if @organization.update(organization_params)
         format.html { redirect_to @organization, notice: "Organization was successfully updated." }
@@ -45,6 +48,8 @@ class OrganizationsController < ApplicationController
 
   # DELETE /organizations/1 or /organizations/1.json
   def destroy
+    authorize @organization
+
     @organization.destroy!
 
     respond_to do |format|
