@@ -8,6 +8,10 @@ RSpec.describe ApplicationPolicy, type: :policy do
 
   subject { described_class }
 
+  it 'raises error if user is nil' do
+    expect { subject.new(nil, org) }.to raise_error(Pundit::NotAuthorizedError)
+  end
+
   permissions :index? do
     it { expect(subject).to_not permit(account_user) }
     it { expect(subject).to_not permit(owner_user) }
