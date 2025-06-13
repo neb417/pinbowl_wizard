@@ -31,6 +31,12 @@ RSpec.describe "Passwords", type: :request do
         post passwords_path, params: { email_address: user.email_address }
       }.to have_enqueued_mail(PasswordsMailer, :reset).with(user)
     end
+
+    it "does not enqueue a password reset email" do
+      expect {
+        post passwords_path, params: { email_address: "invalid@example.com"}
+      }.not_to have_enqueued_mail(PasswordsMailer, :reset).with(user)
+    end
   end
 
   describe "GET /passwords/:token/edit" do
