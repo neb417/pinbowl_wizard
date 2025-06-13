@@ -34,7 +34,7 @@ RSpec.describe "Passwords", type: :request do
 
     it "does not enqueue a password reset email" do
       expect {
-        post passwords_path, params: { email_address: "invalid@example.com"}
+        post passwords_path, params: { email_address: "invalid@example.com" }
       }.not_to have_enqueued_mail(PasswordsMailer, :reset).with(user)
     end
   end
