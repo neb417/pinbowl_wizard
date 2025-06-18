@@ -1,10 +1,22 @@
 require 'rails_helper'
 
-RSpec.describe "Dashboard", type: :request do
-  describe "GET /dashboard" do
-    it "works! (now write some real specs)" do
+RSpec.describe "/dashboard", type: :request do
+  let(:org) { create(:organization) }
+  let(:owner) { create(:owner_user, organization: org, current_organization: org) }
+  let(:user) { create(:user) }
+
+  describe "GET/index" do
+    it "renders unauthorized response" do
+      sign_in_as(user)
       get dashboard_path
-      expect(response).to have_http_status(200)
+      expect(response).to redirect_to(root_path)
+    end
+
+    it "renders successful response" do
+      sign_in_as(owner)
+      get dashboard_path
+      expect(response).to be_successful
+      expect(response).to render_template(:index)
     end
   end
 end

@@ -5,20 +5,18 @@ class DashboardPolicy < ApplicationPolicy
   # code, beware of possible changes to the ancestors:
   # https://gist.github.com/Burgestrand/4b4bc22f31c8a95c425fc0e30d7ef1f5
 
-  class Scope < ApplicationPolicy::Scope
-    def index?
-      return false unless user.current_organization.present?
+  def index?
+    return false unless user.current_organization.present?
 
-      can_access_dashboard?
-    end
+    can_access_dashboard?
+  end
 
-    private
-    def organization
-      user.current_organization
-    end
+  private
+  def organization
+    user.current_organization
+  end
 
-    def can_access_dashboard?
-      organization.accounts.include?(user)
-    end
+  def can_access_dashboard?
+    organization.accounts.include?(user)
   end
 end
