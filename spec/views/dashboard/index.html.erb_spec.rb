@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "home/dashboard", type: :view do
+RSpec.describe "dashboard/index", type: :view do
   let(:org) { create(:organization) }
   let(:owner) { create(:owner_user, current_organization: org, organization: org) }
 
