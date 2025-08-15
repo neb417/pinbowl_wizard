@@ -8,7 +8,6 @@ RSpec.describe "/dashboard", type: :request do
   describe "GET/index" do
     context "when user is not authorized" do
       it "redirects to root path" do
-
         allow(DashboardPolicy).to receive(:new).and_return(double(index?: false))
         sign_in_as(user)
         get dashboard_path
