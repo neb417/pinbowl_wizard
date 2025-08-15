@@ -1,3 +1,4 @@
+
 module SessionTestHelper
     def sign_in_as(user)
       Current.session = user.sessions.create!
