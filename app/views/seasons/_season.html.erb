@@ -3,6 +3,7 @@
     <strong>Title:</strong>
     <%= season.title %>
     <%= link_to 'Edit', edit_season_path(season), data: { turbo_stream: true } %>
+    <%= link_to 'Delete', season_path(season), data: { turbo_method: :delete } %>
   </p>
 
 </div>
