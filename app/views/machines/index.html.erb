@@ -4,13 +4,13 @@
 
 <h1>Machines</h1>
 
+<div id="new_machine">
+    <%= render partial: 'machines/new_machine_link' %>
+</div>
+
 <div id="machines">
   <% @machines.each do |machine| %>
     <%= render machine %>
-    <p>
-      <%= link_to "Show this machine", machine %>
-    </p>
   <% end %>
 </div>
 
-<%= link_to "New machine", new_machine_path %>

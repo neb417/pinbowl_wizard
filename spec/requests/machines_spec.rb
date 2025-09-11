@@ -65,7 +65,7 @@ RSpec.describe "/machines", type: :request do
 
       it "redirects to the created machine" do
         post machines_url, params: { machine: valid_attributes }
-        expect(response).to redirect_to(machine_url(Machine.last))
+        expect(response).to redirect_to(machines_path)
       end
     end
 
@@ -126,6 +126,67 @@ RSpec.describe "/machines", type: :request do
       machine = Machine.create! valid_attributes
       delete machine_url(machine)
       expect(response).to redirect_to(machines_url)
+    end
+  end
+
+  describe "Turbo Stream responses" do
+    let(:headers) { { "ACCEPT" => "text/vnd.turbo-stream.html" } }
+
+    describe "GET /new" do
+      it "returns a turbo stream response" do
+        get new_machine_url, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    describe "POST /create" do
+      it "returns a turbo stream response on success" do
+        post machines_url, params: { machine: valid_attributes }, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+        expect(response.body).to include("prepend")
+      end
+
+      it "returns a turbo stream response on failure" do
+        post machines_url, params: { machine: invalid_attributes }, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    describe "GET /edit" do
+      it "returns a turbo stream response" do
+        machine = Machine.create! valid_attributes
+        get edit_machine_url(machine), headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    describe "PATCH /update" do
+      it "returns a turbo stream response on success" do
+        machine = Machine.create! valid_attributes
+        patch machine_url(machine), params: { machine: valid_attributes }, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+
+      it "returns a turbo stream response on failure" do
+        machine = Machine.create! valid_attributes
+        patch machine_url(machine), params: { machine: invalid_attributes }, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    describe "DELETE /destroy" do
+      it "returns a turbo stream response" do
+        machine = Machine.create! valid_attributes
+        delete machine_url(machine), headers: headers
+        expect(response.body).to include("turbo-stream")
+        expect(response.body).to include("remove")
+      end
     end
   end
 end

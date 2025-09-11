@@ -1,0 +1,5 @@
+<% if @machine.errors.present? %>
+  <%= turbo_stream.update dom_id(@machine), partial: 'machines/form', locals: { machine: @machine } %>
+<% else %>
+  <%= turbo_stream.update dom_id(@machine), partial: 'machines/machine', locals: { machine: @machine }  %>
+<% end %>

@@ -25,11 +25,11 @@ class MachinesController < ApplicationController
 
     respond_to do |format|
       if @machine.save
-        format.html { redirect_to @machine, notice: "Machine was successfully created." }
-        format.json { render :show, status: :created, location: @machine }
+        format.html { redirect_to machines_path, notice: "Machine was successfully created." }
+        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @machine.errors, status: :unprocessable_content }
+        format.turbo_stream
       end
     end
   end
@@ -39,10 +39,10 @@ class MachinesController < ApplicationController
     respond_to do |format|
       if @machine.update(machine_params)
         format.html { redirect_to @machine, notice: "Machine was successfully updated." }
-        format.json { render :show, status: :ok, location: @machine }
+        format.turbo_stream
       else
         format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @machine.errors, status: :unprocessable_content }
+        format.turbo_stream
       end
     end
   end
