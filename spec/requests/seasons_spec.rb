@@ -75,7 +75,7 @@ RSpec.describe "/seasons", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post seasons_url, params: { season: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -103,7 +103,7 @@ RSpec.describe "/seasons", type: :request do
     context "with invalid parameters" do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         patch season_url(season), params: { season: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
