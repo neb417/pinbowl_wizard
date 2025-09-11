@@ -78,7 +78,7 @@ RSpec.describe "/machines", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post machines_url, params: { machine: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -109,7 +109,7 @@ RSpec.describe "/machines", type: :request do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         machine = Machine.create! valid_attributes
         patch machine_url(machine), params: { machine: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

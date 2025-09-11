@@ -114,7 +114,7 @@ RSpec.describe "Organizations", type: :request do
         sign_in_as(owner_user)
         patch organization_path(organization), params: { organization: { name: "" } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response).to render_template(:edit)
       end
     end
