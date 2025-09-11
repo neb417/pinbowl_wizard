@@ -13,7 +13,6 @@ class MachinesController < ApplicationController
   # GET /machines/new
   def new
     @machine = Machine.new
-    format_respond_to
   end
 
   # GET /machines/1/edit
@@ -40,10 +39,10 @@ class MachinesController < ApplicationController
     respond_to do |format|
       if @machine.update(machine_params)
         format.html { redirect_to @machine, notice: "Machine was successfully updated." }
-        format.json { render :show, status: :ok, location: @machine }
+        format.turbo_stream
       else
         format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @machine.errors, status: :unprocessable_content }
+        format.turbo_stream
       end
     end
   end

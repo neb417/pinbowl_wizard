@@ -2,6 +2,7 @@
   <p>
     <strong>Name:</strong>
     <%= machine.name %>
+    <%= link_to 'Edit', edit_machine_path(machine), data: { turbo_stream: true } %>
   </p>
 
 </div>
