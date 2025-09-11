@@ -1,0 +1,6 @@
+<% if @machine.errors.present? %>
+  <%= turbo_stream.update 'new_machine', partial: 'machines/form', locals: { machine: @machine } %>
+<% else %>
+  <%= turbo_stream.update 'new_machine', partial: 'machines/new_machine_link' %>
+  <%= turbo_stream.prepend 'machines', partial: 'machines/machine', locals: { machine: @machine }  %>
+<% end %>

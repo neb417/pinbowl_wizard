@@ -13,6 +13,7 @@ class MachinesController < ApplicationController
   # GET /machines/new
   def new
     @machine = Machine.new
+    format_respond_to
   end
 
   # GET /machines/1/edit
@@ -25,11 +26,11 @@ class MachinesController < ApplicationController
 
     respond_to do |format|
       if @machine.save
-        format.html { redirect_to @machine, notice: "Machine was successfully created." }
-        format.json { render :show, status: :created, location: @machine }
+        format.html { redirect_to machines_path, notice: "Machine was successfully created." }
+        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @machine.errors, status: :unprocessable_entity }
+        format.turbo_stream
       end
     end
   end

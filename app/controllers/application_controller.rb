@@ -9,6 +9,13 @@ class ApplicationController < ActionController::Base
     Current.user
   end
 
+  def format_respond_to
+    respond_to do |format|
+      format.turbo_stream
+      format.html
+    end
+  end
+
   private
 
   def user_not_authorized
