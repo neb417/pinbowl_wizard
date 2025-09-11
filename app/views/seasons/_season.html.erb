@@ -2,6 +2,7 @@
   <p>
     <strong>Title:</strong>
     <%= season.title %>
+    <%= link_to 'Edit', edit_season_path(season), data: { turbo_stream: true } %>
   </p>
 
 </div>
