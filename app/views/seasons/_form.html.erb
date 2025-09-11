@@ -12,6 +12,10 @@
   <% end %>
 
   <div>
+    <%= form.hidden_field :organization_id, value: Current.user.current_organization_id %>
+  </div>
+
+  <div>
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title %>
   </div>

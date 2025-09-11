@@ -4,13 +4,13 @@
 
 <h1>Seasons</h1>
 
+<%= turbo_frame_tag 'new_season' do %>
+    <%= render partial: 'seasons/new_season_link' %>
+<% end %>
+
 <div id="seasons">
   <% @seasons.each do |season| %>
     <%= render season %>
-    <p>
-      <%= link_to "Show this season", season %>
-    </p>
   <% end %>
 </div>
 
-<%= link_to "New season", new_season_path %>
