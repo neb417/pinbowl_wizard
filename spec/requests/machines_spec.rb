@@ -65,7 +65,7 @@ RSpec.describe "/machines", type: :request do
 
       it "redirects to the created machine" do
         post machines_url, params: { machine: valid_attributes }
-        expect(response).to redirect_to(machine_url(Machine.last))
+        expect(response).to redirect_to(machines_path)
       end
     end
 

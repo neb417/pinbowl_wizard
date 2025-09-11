@@ -29,7 +29,7 @@ class MachinesController < ApplicationController
         format.html { redirect_to machines_path, notice: "Machine was successfully created." }
         format.turbo_stream
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
         format.turbo_stream
       end
     end
