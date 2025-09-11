@@ -28,8 +28,8 @@ class SeasonsController < ApplicationController
         format.html { redirect_to @season, notice: "Season was successfully created." }
         format.json { render :show, status: :created, location: @season }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @season.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @season.errors, status: :unprocessable_content }
       end
     end
   end
@@ -41,8 +41,8 @@ class SeasonsController < ApplicationController
         format.html { redirect_to @season, notice: "Season was successfully updated." }
         format.json { render :show, status: :ok, location: @season }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @season.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @season.errors, status: :unprocessable_content }
       end
     end
   end

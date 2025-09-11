@@ -78,7 +78,7 @@ RSpec.describe "/matches", type: :request do
 
       it "renders a response with 422 status (i.e. to display the 'new' template)" do
         post matches_url, params: { match: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -111,7 +111,7 @@ RSpec.describe "/matches", type: :request do
       it "renders a response with 422 status (i.e. to display the 'edit' template)" do
         match = Match.create! valid_attributes
         patch match_url(match), params: { match: invalid_attributes }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

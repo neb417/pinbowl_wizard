@@ -42,8 +42,8 @@ class MachinesController < ApplicationController
         format.html { redirect_to @machine, notice: "Machine was successfully updated." }
         format.json { render :show, status: :ok, location: @machine }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @machine.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @machine.errors, status: :unprocessable_content }
       end
     end
   end
