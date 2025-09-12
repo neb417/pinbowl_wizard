@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_06_190149) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_12_171927) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -18,6 +18,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_190149) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_machines_on_organization_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -119,6 +121,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_190149) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "machines", "organizations"
   add_foreign_key "matches", "machines"
   add_foreign_key "matches", "rounds"
   add_foreign_key "player_matches", "matches"

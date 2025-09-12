@@ -19,6 +19,7 @@ class Organization < ApplicationRecord
   has_many :seasons
   has_many :memberships
   has_many :users, through: :memberships
+  has_many :machines
 
   validates :name, presence: true, uniqueness: true
   validates :code, presence: true, uniqueness: true,
