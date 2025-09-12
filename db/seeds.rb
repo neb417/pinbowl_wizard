@@ -8,8 +8,6 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 
-require_relative '../app/services/membership_creator'
-
 org1 = Organization.create!(name: 'Pinbowl', code: 'pinbowl')
 org2 = Organization.create!(name: 'Bowlpin', code: 'bowlpin')
 
