@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "seasons/edit", type: :view do
-  let(:season) { create(:season) }
+  let(:organization) { create(:organization) }
+  let(:season) { create(:season, organization: organization) }
+  let(:user) { create(:owner_user, current_organization: organization) }
 
   before(:each) do
+    sign_in_as(user)
     assign(:season, season)
   end
 

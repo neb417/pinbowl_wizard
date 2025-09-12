@@ -1,0 +1,5 @@
+<% if @season.errors.present? %>
+  <%= turbo_stream.update @season, partial: 'seasons/form', locals: { season: @season } %>
+<% else %>
+  <%= turbo_stream.update @season, partial: 'seasons/season', locals: { season: @season } %>
+<% end %>

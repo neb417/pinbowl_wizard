@@ -26,10 +26,10 @@ class SeasonsController < ApplicationController
     respond_to do |format|
       if @season.save
         format.html { redirect_to @season, notice: "Season was successfully created." }
-        format.json { render :show, status: :created, location: @season }
+        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @season.errors, status: :unprocessable_content }
+        format.turbo_stream
       end
     end
   end
@@ -39,10 +39,10 @@ class SeasonsController < ApplicationController
     respond_to do |format|
       if @season.update(season_params)
         format.html { redirect_to @season, notice: "Season was successfully updated." }
-        format.json { render :show, status: :ok, location: @season }
+        format.turbo_stream
       else
         format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @season.errors, status: :unprocessable_content }
+        format.turbo_stream
       end
     end
   end
