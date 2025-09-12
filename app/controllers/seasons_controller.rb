@@ -3,7 +3,7 @@ class SeasonsController < ApplicationController
 
   # GET /seasons or /seasons.json
   def index
-    @seasons = Season.all
+    @seasons = Season.where(organization: Current.user.current_organization)
   end
 
   # GET /seasons/1 or /seasons/1.json
