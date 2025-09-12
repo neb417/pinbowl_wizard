@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "/users", type: :request do
-  let!(:user) { create(:user) }
+  let(:organization) { create(:organization) }
+  let!(:user) { create(:user, current_organization: organization) }
   let(:invalid_attributes) { invalid_user_attributes }
   let!(:invalid_user) { build(:user, invalid_attributes) }
 
