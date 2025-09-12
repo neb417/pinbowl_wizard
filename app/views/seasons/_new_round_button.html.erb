@@ -1,0 +1,3 @@
+<%# locals: (season:)  %>
+
+<%= button_to 'Create a new Round', rounds_path, params: { round: { season_id: season.id, number: season.form_round_number } }, data: { turbo_stream: true } %>

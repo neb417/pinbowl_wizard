@@ -3,8 +3,14 @@
 <%= render @season %>
 
 <div>
-  <%= link_to "Edit this season", edit_season_path(@season) %> |
-  <%= link_to "Back to seasons", seasons_path %>
+  <%= turbo_frame_tag 'new_round' do %>
+    <%= render partial: 'seasons/new_round_button', locals: { season: @season }  %>
+  <% end %>
 
-  <%= button_to "Destroy this season", @season, method: :delete %>
+  <h2>
+    Rounds
+  </h2>
+  <%= turbo_frame_tag "season_#{@season.id}_rounds" do %>
+    <%= render partial: 'rounds/rounds', locals: { rounds: @season.ordered_rounds } %>
+  <% end %>
 </div>

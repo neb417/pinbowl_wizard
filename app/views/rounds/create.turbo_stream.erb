@@ -1,0 +1,6 @@
+<% if @round.errors.present? %>
+    <%= turbo_stream.update 'new_round', partial: 'rounds/form', locals: { round: @round} %>
+<% else %>
+    <%= turbo_stream.update 'new_round', partial: 'seasons/new_round_button', locals: { season: @round.season }  %>
+    <%= turbo_stream.update "season_#{@round.season_id}_rounds", partial: 'rounds/rounds', locals: { rounds: @round.season.ordered_rounds } %>
+<% end %>

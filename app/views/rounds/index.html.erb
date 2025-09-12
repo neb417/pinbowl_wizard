@@ -5,12 +5,7 @@
 <h1>Rounds</h1>
 
 <div id="rounds">
-  <% @rounds.each do |round| %>
-    <%= render round %>
-    <p>
-      <%= link_to "Show this round", round %>
-    </p>
-  <% end %>
+  <%= render partial: 'rounds/rounds', locals: { rounds: @rounds } %>
 </div>
 
 <%= link_to "New round", new_round_path %>
