@@ -120,4 +120,65 @@ RSpec.describe "/seasons", type: :request do
       expect(response).to redirect_to(seasons_url)
     end
   end
+
+  describe "Turbo Stream responses" do
+    let(:headers) { { "ACCEPT" => "text/vnd.turbo-stream.html" } }
+
+    describe "GET /new" do
+      it "returns a turbo stream response" do
+        get new_season_url, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    describe "POST /create" do
+      it "returns a turbo stream response on success" do
+        post seasons_url, params: { season: valid_attributes }, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+        expect(response.body).to include("prepend")
+      end
+
+      it "returns a turbo stream response on failure" do
+        post seasons_url, params: { season: invalid_attributes }, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    describe "GET /edit" do
+      it "returns a turbo stream response" do
+        season = Season.create! valid_attributes
+        get edit_season_url(season), headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    describe "PATCH /update" do
+      it "returns a turbo stream response on success" do
+        season = Season.create! valid_attributes
+        patch season_url(season), params: { season: valid_attributes }, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+
+      it "returns a turbo stream response on failure" do
+        season = Season.create! valid_attributes
+        patch season_url(season), params: { season: invalid_attributes }, headers: headers
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    describe "DELETE /destroy" do
+      it "returns a turbo stream response" do
+        season = Season.create! valid_attributes
+        delete season_url(season), headers: headers
+        expect(response.body).to include("turbo-stream")
+        expect(response.body).to include("remove")
+      end
+    end
+  end
 end
