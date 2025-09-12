@@ -26,8 +26,7 @@ user_index = 1
 10.times do
   user = User.create!(first_name: "Test#{user_index}", last_name: "User#{user_index}", email_address: "user#{user_index}@test.com", password: 'password')
   org = user_index % 2 == 0 ? org2 : org1
-  user.add_role(:account, org)
-  user.update!(current_organization: org)
+  MembershipCreator(user: user, organization: org)
   user_index += 1
 end
 
