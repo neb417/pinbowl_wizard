@@ -27,7 +27,6 @@ class Season < ApplicationRecord
   end
 
   def form_round_number
-    return 1 if ordered_rounds.blank?
-    ordered_rounds.last.number + 1
+    ordered_rounds.blank? ? 1 : ordered_rounds.last.number + 1
   end
 end
