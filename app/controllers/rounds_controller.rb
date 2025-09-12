@@ -23,6 +23,8 @@ class RoundsController < ApplicationController
   def create
     @round = Round.new(round_params)
 
+    # create matches between players and machines
+
     respond_to do |format|
       if @round.save
         format.html { redirect_to @round, notice: "Round was successfully created." }
