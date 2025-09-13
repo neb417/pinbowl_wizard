@@ -23,4 +23,5 @@ class Match < ApplicationRecord
   belongs_to :round
   belongs_to :machine
   has_many :player_matches
+  has_many :users, through: :player_matches
 end
