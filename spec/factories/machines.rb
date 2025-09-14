@@ -19,6 +19,8 @@
 
 FactoryBot.define do
   factory :machine do
+    association :organization
+
     name { Faker::Game.title }
   end
 end

@@ -10,6 +10,11 @@ class MatchMaker
   end
 
   def call
+    # Need to make flights in the db.
+    # Each round has a series of flights
+    # Each flight has a series of matches
+    # Each player plays 1 match in each flight.
+
     player_matching = build_player_matching(accounts.to_a)
     player_matching.each do |player, matching|
       build_matches(player, matching, machines.to_a)

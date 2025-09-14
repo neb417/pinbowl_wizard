@@ -65,6 +65,6 @@ class MachinesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def machine_params
-      params.expect(machine: [ :name ])
+      params.expect(machine: [ :name, :organization_id ])
     end
 end

@@ -19,7 +19,6 @@
 
 class Round < ApplicationRecord
   belongs_to :season
-  has_many :matches
   has_many :flights
 
   validates :number, presence: true
