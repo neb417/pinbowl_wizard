@@ -16,6 +16,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_13_191013) do
 
   create_table "flights", force: :cascade do |t|
     t.bigint "round_id", null: false
+    t.integer "number", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["round_id"], name: "index_flights_on_round_id"

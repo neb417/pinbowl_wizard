@@ -58,6 +58,7 @@ group :development, :test do
   gem "pry-rescue"
   gem "pry-rails"
   gem "faker"
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -73,7 +74,6 @@ group :test do
   gem "shoulda-matchers"
   gem "simplecov"
   gem "capybara"
-  gem "factory_bot_rails"
   gem "launchy"
   gem "orderly"
   gem "rails-controller-testing"
