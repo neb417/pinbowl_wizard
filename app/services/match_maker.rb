@@ -95,14 +95,14 @@ class MatchMaker
     end
   end
 
-  def match_query
-    # Not used
-    Match.
-      joins(:player_matches, :flight).
-      where(player_matches: { user_id: [ player.id, player_match.id ] }).
-      where(flights: { round_id: round.id }).
-      group('matches.id').
-      having('COUNT(DISTINCT player_matches.user_id) = 2').
-      exists?
-  end
+  # def match_query
+  #   Not used
+  #   Match.
+  #     joins(:player_matches, :flight).
+  #     where(player_matches: { user_id: [ player.id, player_match.id ] }).
+  #     where(flights: { round_id: round.id }).
+  #     group('matches.id').
+  #     having('COUNT(DISTINCT player_matches.user_id) = 2').
+  #     exists?
+  # end
 end

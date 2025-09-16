@@ -13,29 +13,26 @@ RSpec.describe MatchMaker, type: :service do
   let!(:player4) { create(:account_user, current_organization: organization, organization:) }
   let!(:player5) { create(:account_user, current_organization: organization, organization:) }
   let!(:player6) { create(:account_user, current_organization: organization, organization:) }
-  let!(:player7) { create(:account_user, current_organization: organization, organization:) }
-  let!(:player8) { create(:account_user, current_organization: organization, organization:) }
-  let!(:player9) { create(:account_user, current_organization: organization, organization:) }
-  let!(:player10) { create(:account_user, current_organization: organization, organization:) }
-  let!(:player11) { create(:account_user, current_organization: organization, organization:) }
-  let!(:player12) { create(:account_user, current_organization: organization, organization:) }
   let!(:machine1) { create(:machine, organization:) }
   let!(:machine2) { create(:machine, organization:) }
   let!(:machine3) { create(:machine, organization:) }
   let!(:machine4) { create(:machine, organization:) }
-  let!(:machine5) { create(:machine, organization:) }
-  let!(:machine6) { create(:machine, organization:) }
-  let!(:machine7) { create(:machine, organization:) }
-  let!(:machine8) { create(:machine, organization:) }
-  let!(:machine9) { create(:machine, organization:) }
-  let!(:machine10) { create(:machine, organization:) }
-  let!(:machine11) { create(:machine, organization:) }
-  let!(:machine12) { create(:machine, organization:) }
-  let!(:machine13) { create(:machine, organization:) }
-  let!(:machine14) { create(:machine, organization:) }
-  let!(:machine15) { create(:machine, organization:) }
 
-  it 'does a thing' do
-    subject
+  it 'creates flights' do
+    expect do
+      subject
+    end.to change(Flight, :count).from(0).to(5)
+  end
+
+  it 'creates matches' do
+    expect do
+      subject
+    end.to change(Match, :count).from(0).to(13)
+  end
+
+  it 'creates player matches' do
+    expect do
+      subject
+    end.to change(PlayerMatch, :count).from(0).to(26)
   end
 end
