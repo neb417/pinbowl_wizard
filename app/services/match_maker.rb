@@ -23,7 +23,7 @@ class MatchMaker
   attr_accessor :round, :season, :organization, :machines,
                 :accounts, :flights, :result, :player_matches, :number_of_flights
 
-  def build_player_matching(players, matchings ={})
+  def build_player_matching(players, matchings = {})
     return matchings if players.empty? || players.count == 1
 
     player = players.shift
