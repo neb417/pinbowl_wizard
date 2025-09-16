@@ -23,13 +23,15 @@ class RoundsController < ApplicationController
   def create
     @round = Round.new(round_params)
 
+    # create matches between players and machines
+
     respond_to do |format|
       if @round.save
         format.html { redirect_to @round, notice: "Round was successfully created." }
-        format.json { render :show, status: :created, location: @round }
+        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @round.errors, status: :unprocessable_content }
+        format.turbo_stream
       end
     end
   end

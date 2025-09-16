@@ -1,10 +1,10 @@
 module AttributesTestHelper
   def valid_machine_attributes
-    { name: Faker::FunnyName.name }
+    { name: Faker::FunnyName.name,  organization_id: FactoryBot.create(:organization).id }
   end
 
   def invalid_machine_attributes
-    { name: "" }
+    { name: "", organization_id: FactoryBot.create(:organization).id }
   end
 
   def edit_machine_attributes
@@ -12,15 +12,15 @@ module AttributesTestHelper
   end
 
   def valid_match_attributes
-    { round_id: create(:round).id, machine_id: create(:machine).id }
+    { flight_id: create(:flight).id, machine_id: create(:machine).id }
   end
 
   def invalid_match_attributes
-    { round_id: nil, machine_id: nil }
+    { flight_id: nil, machine_id: nil }
   end
 
   def edit_match_attributes
-    { round_id: create(:round).id, machine_id: create(:machine).id }
+    { flight_id: create(:flight).id, machine_id: create(:machine).id }
   end
 
   def valid_membership_attributes(org_code)

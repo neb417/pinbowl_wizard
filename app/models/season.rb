@@ -21,4 +21,12 @@ class Season < ApplicationRecord
   has_many :rounds
   belongs_to :organization
   validates_presence_of :title
+
+  def ordered_rounds
+    rounds.order(:number)
+  end
+
+  def form_round_number
+    ordered_rounds.blank? ? 1 : ordered_rounds.last.number + 1
+  end
 end

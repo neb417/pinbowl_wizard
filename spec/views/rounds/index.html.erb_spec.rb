@@ -9,6 +9,6 @@ RSpec.describe "rounds/index", type: :view do
   it "renders a list of rounds" do
     render
     cell_selector = 'div>p'
-    assert_select cell_selector, text: Regexp.new("Season".to_s), count: 2
+    assert_select cell_selector, text: Regexp.new("Round".to_s), count: 2
   end
 end

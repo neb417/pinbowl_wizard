@@ -23,6 +23,7 @@ class User < ApplicationRecord
   has_many :player_matches
   has_many :memberships
   has_many :organizations, through: :memberships
+  has_many :matches, through: :player_matches
   belongs_to :current_organization, class_name: "Organization", optional: true
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }

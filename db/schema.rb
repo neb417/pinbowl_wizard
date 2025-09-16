@@ -10,23 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_06_190149) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_13_191013) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "flights", force: :cascade do |t|
+    t.bigint "round_id", null: false
+    t.integer "number", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["round_id"], name: "index_flights_on_round_id"
+  end
 
   create_table "machines", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "organization_id", null: false
+    t.index ["organization_id"], name: "index_machines_on_organization_id"
   end
 
   create_table "matches", force: :cascade do |t|
-    t.bigint "round_id", null: false
     t.bigint "machine_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "flight_id", null: false
+    t.index ["flight_id"], name: "index_matches_on_flight_id"
     t.index ["machine_id"], name: "index_matches_on_machine_id"
-    t.index ["round_id"], name: "index_matches_on_round_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -119,8 +129,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_06_190149) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "flights", "rounds"
+  add_foreign_key "machines", "organizations"
+  add_foreign_key "matches", "flights"
   add_foreign_key "matches", "machines"
-  add_foreign_key "matches", "rounds"
   add_foreign_key "player_matches", "matches"
   add_foreign_key "player_matches", "users"
   add_foreign_key "rounds", "seasons"

@@ -1,9 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe "machines/edit", type: :view do
+  let(:organization) { FactoryBot.create(:organization)  }
   let(:machine) {
     Machine.create!(
-      name: "MyString"
+      name: "MyString",
+      organization: organization
     )
   }
 

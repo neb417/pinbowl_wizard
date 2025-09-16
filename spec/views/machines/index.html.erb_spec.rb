@@ -1,13 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe "machines/index", type: :view do
+  let(:organization) { FactoryBot.create(:organization)  }
   before(:each) do
     assign(:machines, [
       Machine.create!(
-        name: "Name"
+        name: "Name",
+        organization: organization
       ),
       Machine.create!(
-        name: "Name"
+        name: "Name",
+        organization: organization
       )
     ])
   end

@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe "machines/show", type: :view do
+  let(:organization) { FactoryBot.create(:organization)  }
+
   before(:each) do
     assign(:machine, Machine.create!(
-      name: "Name"
+      name: "Name",
+      organization: organization
     ))
   end
 

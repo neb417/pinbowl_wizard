@@ -26,8 +26,7 @@ user_index = 1
 10.times do
   user = User.create!(first_name: "Test#{user_index}", last_name: "User#{user_index}", email_address: "user#{user_index}@test.com", password: 'password')
   org = user_index % 2 == 0 ? org2 : org1
-  user.add_role(:account, org)
-  user.update!(current_organization: org)
+  MembershipCreator.call(user: user, organization: org)
   user_index += 1
 end
 
@@ -35,13 +34,13 @@ User.create!(first_name: 'Unassigned', last_name: 'Test-User', email_address: 'u
 
 index1 = 1
 3.times do
-  Machine.create!(name:  "#{org1.name} machine #{index1}")
+  Machine.create!(name:  "#{org1.name} machine #{index1}", organization: org1)
   index1 += 1
 end
 
 index2 = 1
 3.times do
-  Machine.create!(name:  "#{org2.name} machine #{index2}")
+  Machine.create!(name:  "#{org2.name} machine #{index2}", organization: org2)
   index2 += 1
 end
 
