@@ -35,4 +35,30 @@ RSpec.describe MatchMaker, type: :service do
       subject
     end.to change(PlayerMatch, :count).from(0).to(26)
   end
+
+  it 'assigns last_flight as nil when no flights exist for the round' do
+    expect(Flight.where(round: round).order(:number).last).to be_nil
+    described_class.call(round: round, number_of_flights: 1)
+    expect(Flight.where(round: round).count).to eq(1)
+  end
+
+  it 'assigns last_flight to the last flight when flights exist for the round' do
+    existing_flight = Flight.create!(round: round, number: 1)
+    expect(Flight.where(round: round).order(:number).last).to eq(existing_flight)
+    described_class.call(round: round, number_of_flights: 1)
+    expect(Flight.where(round: round).count).to eq(2)
+  end
+
+  it 'does not create a match if players are already matched' do
+    round.save!
+    flight = FactoryBot.create(:flight)
+    machine = FactoryBot.create(:machine, organization: organization)
+    match = FactoryBot.create(:match, flight: flight, machine: machine)
+    PlayerMatch.create!(match: match, user: player1)
+    PlayerMatch.create!(match: match, user: player2)
+
+    expect {
+      described_class.call(round: round, number_of_flights: 1)
+    }.not_to change { Match.where(flight: flight, machine: machine).count }
+  end
 end
