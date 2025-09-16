@@ -1,7 +1,8 @@
 class MatchMaker
   include Callable
 
-  def initialize(round:)
+  def initialize(round:, number_of_flights:)
+    self.number_of_flights = number_of_flights
     self.round = round
     self.season = round.season
     self.organization = season.organization
@@ -13,17 +14,14 @@ class MatchMaker
   end
 
   def call
-    accounts.size.times do
-      build_flight
-    end
-    player_matching = build_player_matching(accounts.to_a)
-    binding.pry
-    # player_matching.each do |player, matching|
-    #   build_matches(player, matching, machines.to_a)
-    # end
+    build_flights
+    build_player_matching(accounts.to_a)
   end
 
-  private attr_accessor :round, :season, :organization, :machines, :accounts, :flights, :result, :player_matches
+  private
+
+  attr_accessor :round, :season, :organization, :machines,
+                :accounts, :flights, :result, :player_matches, :number_of_flights
 
   def build_player_matching(players, matchings ={})
     return matchings if players.empty? || players.count == 1
@@ -44,19 +42,18 @@ class MatchMaker
     end
   end
 
-  def build_flight
-    last_flight = Flight.where(round: round)&.order(:number)&.last
-    flight = last_flight.present? ? Flight.create(round: round, number: last_flight.number + 1) : Flight.create(round: round)
-    flights << flight
+  def build_flights
+    number_of_flights.times do
+      last_flight = Flight.where(round: round)&.order(:number)&.last
+      flight = last_flight.present? ? Flight.create(round: round, number: last_flight.number + 1) : Flight.create(round: round)
+      flights << flight
+    end
   end
 
   def build_matches(player, player_match)
     flights.each_with_index do |flight|
       next if player_matches[player.id].present? && player_matches.dig(player.id, :flights).include?(flight.id)
       return if are_players_already_matched?(player, player_match)
-      # binding.pry if player.id == 3
-
-      # build_flight if Flight.where(id: flights.pluck(:id)).where.not(id: [ player_matches[player_match.id][:flights], player_matches[player.id][:flights] ].flatten).empty?
 
       next if player.matches.where(flight_id: flight.id).present? ||
         player_match.matches.where(flight_id: flight.id).present? ||
@@ -70,8 +67,7 @@ class MatchMaker
 
       PlayerMatch.create(match: match, user: player)
       PlayerMatch.create(match: match, user: player_match)
-      # player_matches[player.id].present?  ? player_matches[player.id] << player_match.id  : player_matches[player.id] = [ player_match.id ]
-      # player_matches[player_match.id].present?  ? player_matches[player_match.id] << player.id  : player_matches[player_match.id] = [ player.id ]
+
       build_player_match_hash(player, player_match, flight)
       result[flight.id] = [] if result[flight.id].nil?
       result[flight.id] << {  'match': {  'id': match.id, 'machine': match.machine_id,  'player_1': player.id, 'player_2': player_match.id } }
@@ -99,17 +95,8 @@ class MatchMaker
     end
   end
 
-  # def build_matches(player, player_match, machines)
-  #   return if  machines.empty? || player_match.nil?
-  #
-  #   machine = machines.shift
-  #   match = Match.create(machine: machine, flight: flights[index])
-  #   PlayerMatch.create(match: match, user: player)
-  #   PlayerMatch.create(match: match, user: player_match)
-  #
-  #   build_matches(player, player_matching, machines)
-  # end
   def match_query
+    # Not used
     Match.
       joins(:player_matches, :flight).
       where(player_matches: { user_id: [ player.id, player_match.id ] }).
