@@ -13,10 +13,6 @@ class MatchMaker
   end
 
   def call
-    # Need to make flights in the db.
-    # Each round has a series of flights
-    # Each flight has a series of matches
-    # Each player plays 1 match in each flight.
     accounts.size.times do
       build_flight
     end
@@ -33,23 +29,19 @@ class MatchMaker
     return matchings if players.empty? || players.count == 1
 
     player = players.shift
-    matching_count = matchings[player].present? ? matchings[player].size : 0
 
     matches = []
     players.each do |p|
       matches << p
-      # build_flight if (players.count + matching_count + 1) == accounts.size
       build_matches(player, p)
     end
     matchings[player] = matches
-    # flights.shift
-    # machines.shift
-    if player.id % 2 == 0
+
+    if players.count % 2 == 0
       build_player_matching(players, matchings)
     else
       build_player_matching(players.reverse, matchings)
     end
-    # build_player_matching(players, matchings)
   end
 
   def build_flight
