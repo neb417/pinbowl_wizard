@@ -17,6 +17,8 @@ RSpec.describe MatchMaker, type: :service do
   let!(:machine2) { create(:machine, organization:) }
   let!(:machine3) { create(:machine, organization:) }
   let!(:machine4) { create(:machine, organization:) }
+  let!(:machine5) { create(:machine, organization:) }
+  let!(:machine6) { create(:machine, organization:) }
 
   it 'creates flights' do
     expect do

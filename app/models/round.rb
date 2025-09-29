@@ -21,5 +21,7 @@ class Round < ApplicationRecord
   belongs_to :season
   has_many :flights
 
+  scope :last_round_for_season, ->(season_id)  { where(season: season_id).order(:number).last }
+
   validates :number, presence: true
 end
