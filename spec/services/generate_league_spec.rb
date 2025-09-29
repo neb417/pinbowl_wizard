@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe GenerateLeague, type: :service do
   # subject { described_class.call(season:, number_of_rounds: 10, number_of_flights: 5) }
-  subject { described_class.call(season:, number_of_rounds: 10, number_of_flights: 5) }
+  subject { described_class.call(season:, number_of_rounds: 10) }
 
   let(:organization) { create(:organization) }
   let(:season) { create(:season, organization:) }
