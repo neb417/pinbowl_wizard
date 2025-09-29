@@ -11,9 +11,11 @@ class GenerateLeague
     self.player_ids = @season.organization.accounts.pluck(:id)
     self.machine_ids = machines.pluck(:id).to_a
     self.result = {}
+    self.player_match_ups = {}
   end
 
   def call
+    build_player_match_up_hash
     group_1, group_2 = split_players_into_groups
     create_season(group_1, group_2)
     result.each do |round, _value|
@@ -24,7 +26,7 @@ class GenerateLeague
 
   private
 
-  attr_accessor :result, :machines, :accounts, :player_ids, :machine_ids
+  attr_accessor :result, :machines, :accounts, :player_ids, :machine_ids, :player_match_ups
 
   def split_players_into_groups
     half = (player_ids.count  / 2.0).round
@@ -44,14 +46,38 @@ class GenerateLeague
 
     player_matching["flight_#{flight_number}"] = []
     group_1.each_with_index do |player, index|
+      player_match_ups[player][:opponents][group_2[index]] += 1
+      player_match_ups[group_2[index]][:opponents][player] += 1
+      player_match_ups[player][:arenas][arenas[index]] += 1
+      player_match_ups[group_2[index]][:arenas][arenas[index]] += 1
+
       match = { "arena_#{arenas[index]}" => [ player, group_2[index] ] }
       player_matching["flight_#{flight_number}"] << match
     end
+
     new_group_1 = group_2.shift
     new_group_2 = group_1.pop
     group_1.unshift(new_group_1)
     group_2 << new_group_2
     create_flights(group_1, group_2, flight_number += 1, player_matching)
+  end
+
+  def build_player_match_up_hash
+    ids = player_ids.clone
+    until ids.blank?
+      id = ids.shift
+      player_match_ups[id] = { opponents: {}, arenas: {} } if player_match_ups[id].blank?
+      ids.each do |i|
+        player_match_ups[i] = { opponents: {}, arenas: {} } if player_match_ups[i].blank?
+
+        player_match_ups[id][:opponents][i] = 0
+        player_match_ups[i][:opponents][id] = 0
+      end
+
+      machine_ids.each do |m_id|
+        player_match_ups[id][:arenas][m_id] = 0
+      end
+    end
   end
 
   # def final_hash
