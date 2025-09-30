@@ -47,9 +47,10 @@ class GenerateLeague
     end
   end
 
-  def create_flights(group_1, group_2, flight_number = 1, player_matching = {}, arenas = machine_ids.shuffle[0..group_1.count - 1])
+  def create_flights(group_1, group_2,  flight_number = 1, player_matching = {})
     return player_matching if flight_number > number_of_flights
 
+    arenas = machine_ids.shift(number_of_flights).reverse
     player_matching["flight_#{flight_number}"] = []
     group_1.each_with_index do |player, index|
       arena = arenas.shift
@@ -60,14 +61,15 @@ class GenerateLeague
 
       match = { "arena_#{arena}" => [ player, group_2[index] ] }
       player_matching["flight_#{flight_number}"] << match
-      arenas << arena
+      machine_ids << arena
     end
 
     new_group_1 = group_2.shift
     new_group_2 = group_1.pop
     group_1.unshift(new_group_1)
     group_2 << new_group_2
-    create_flights(group_1, group_2, flight_number += 1, player_matching, arenas)
+
+    create_flights(group_1, group_2, flight_number += 1, player_matching)
   end
 
   def build_player_match_up_hash
