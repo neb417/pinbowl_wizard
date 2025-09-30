@@ -12,38 +12,64 @@ class GenerateLeague
     self.machine_ids = machines.pluck(:id).to_a
     self.evens = []
     self.odds = []
+    self.group_1 = []
+    self.group_2 = []
     self.result = {}
     self.player_match_ups = {}
+    self.game_number = 1
+    self.base_games = {}
   end
 
   def call
     build_player_match_up_hash
     split_players_into_groups
-    create_season(odds, evens)
-    result.each do |round, _value|
-      result[round] = create_flights(odds.dup.shuffle, evens.dup.shuffle)
-    end
+    create_seasons
+    odds_half = odds.count / 2
+    evens_half = evens.count / 2
+    odds_dup = odds.dup
+    evens_dup = evens.dup
+    build_total_games(group_1.dup, group_2.dup)
+    build_total_games(odds_dup[0..odds_half  - 1], odds_dup[odds_half..-1])
+    build_total_games(evens_dup[0..evens_half  - 1], evens_dup[evens_half..-1])
+    # result.each do |round, _value|
+    #   result[round] = create_flights(odds.dup, evens.dup)
+    # end
     binding.pry
   end
 
   private
 
-  attr_accessor :result, :machines, :accounts, :player_ids, :machine_ids, :player_match_ups, :evens, :odds, :number_of_flights
+  attr_accessor :result, :machines, :accounts, :player_ids, :machine_ids,
+                :player_match_ups, :evens, :odds, :number_of_flights, :group_1, :group_2,
+                :game_number, :base_games
 
   def split_players_into_groups
     player_ids.each_with_index do |id, index|
-      index % 2 == 0 ? evens << id : odds << id
+      index % 2 == 0 ? odds << id : evens << id
     end
+
+    half = (player_ids.size / 2)
+    (group_1 << player_ids[0..half - 1]).flatten!
+    (group_2 << player_ids[half.. - 1]).flatten!
   end
 
   def create_season(group_1, group_2, round_number = 1)
     return if round_number > @number_of_rounds
 
-    result["round_#{round_number}"] = create_flights(group_1.clone, group_2.clone)
+    # result["round_#{round_number}"] = create_flights(group_1.clone, group_2.clone)
+    result["round_#{round_number}"] = {}
     if round_number % 2 == 0
-      create_season(group_1.clone, group_2.clone, round_number + 1)
+      create_season(group_1, group_2, round_number + 1)
     else
-      create_season(group_1.reverse.clone, group_2.reverse.clone, round_number + 1)
+      create_season(group_1.reverse, group_2.reverse, round_number + 1)
+    end
+  end
+
+  def create_seasons
+    round_number = 1
+    @number_of_rounds.times do
+      result["round_#{round_number}"] = {}
+      round_number +=1
     end
   end
 
@@ -69,7 +95,28 @@ class GenerateLeague
     group_1.unshift(new_group_1)
     group_2 << new_group_2
 
-    create_flights(group_1, group_2, flight_number += 1, player_matching)
+    create_flights(group_1.shuffle, group_2.shuffle, flight_number += 1, player_matching)
+  end
+
+  def build_total_games(group_a, group_b)
+    return if player_match_ups[group_a[0]][:opponents][group_b[0]] > 0
+
+    index = 0
+
+    until (index > group_a.count  - 1) || (index >  group_b.count - 1)
+      base_games[game_number] = [ group_a[index], group_b[index] ]
+      player_match_ups[group_a[index]][:opponents][group_b[index]] +=1
+      player_match_ups[group_b[index]][:opponents][group_a[index]] +=1
+      index += 1
+      @game_number += 1
+    end
+
+    new_group_a = group_b.shift
+    new_group_b = group_a.pop
+    group_a.unshift(new_group_a)
+    group_b << new_group_b
+
+    build_total_games(group_a, group_b)
   end
 
   def build_player_match_up_hash
