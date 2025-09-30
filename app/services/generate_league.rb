@@ -5,6 +5,7 @@ class GenerateLeague
   def initialize(season:, number_of_rounds:)
     @season = season
     @number_of_rounds = number_of_rounds
+    @game_number = 1
     self.machines = @season.organization.machines
     self.accounts = @season.organization.accounts
     self.player_ids = @season.organization.accounts.pluck(:id)
@@ -16,32 +17,26 @@ class GenerateLeague
     self.group_2 = []
     self.result = {}
     self.player_match_ups = {}
-    self.game_number = 1
     self.base_games = {}
   end
 
   def call
     build_player_match_up_hash
     split_players_into_groups
+    build_total_games
+    rebuild_player_match_up
     create_seasons
-    odds_half = odds.count / 2
-    evens_half = evens.count / 2
-    odds_dup = odds.dup
-    evens_dup = evens.dup
-    build_total_games(group_1.dup, group_2.dup)
-    build_total_games(odds_dup[0..odds_half  - 1], odds_dup[odds_half..-1])
-    build_total_games(evens_dup[0..evens_half  - 1], evens_dup[evens_half..-1])
-    # result.each do |round, _value|
-    #   result[round] = create_flights(odds.dup, evens.dup)
-    # end
+    result.each do |round, _value|
+      result[round] = create_flights
+    end
     binding.pry
   end
 
   private
 
-  attr_accessor :result, :machines, :accounts, :player_ids, :machine_ids,
-                :player_match_ups, :evens, :odds, :number_of_flights, :group_1, :group_2,
-                :game_number, :base_games
+  attr_accessor :result, :machines, :accounts, :player_ids,
+                :machine_ids, :player_match_ups, :evens, :odds,
+                :number_of_flights, :group_1, :group_2, :base_games
 
   def split_players_into_groups
     player_ids.each_with_index do |id, index|
@@ -73,38 +68,78 @@ class GenerateLeague
     end
   end
 
-  def create_flights(group_1, group_2,  flight_number = 1, player_matching = {})
+  def create_flights(player_matching = {}, flight_number = 1)
     return player_matching if flight_number > number_of_flights
 
     arenas = machine_ids.shift(number_of_flights).reverse
     player_matching["flight_#{flight_number}"] = []
-    group_1.each_with_index do |player, index|
-      arena = arenas.shift
-      player_match_ups[player][:opponents][group_2[index]] += 1
-      player_match_ups[group_2[index]][:opponents][player] += 1
-      player_match_ups[player][:arenas][arena] += 1
-      player_match_ups[group_2[index]][:arenas][arena] += 1
 
-      match = { "arena_#{arena}" => [ player, group_2[index] ] }
+    counter = 1
+    until counter > number_of_flights
+      reset_game_number if @game_number > last_game_number
+      arena = arenas.shift
+      match = { "arena_#{arena}" => base_games[@game_number] }
       player_matching["flight_#{flight_number}"] << match
+
+      player_1 = base_games[@game_number][0]
+      player_2 = base_games[@game_number][1]
+      player_match_ups[player_1][:opponents][player_2] += 1
+      player_match_ups[player_2][:opponents][player_1] += 1
+      player_match_ups[player_1][:arenas][arena] += 1
+      player_match_ups[player_2][:arenas][arena] += 1
+
       machine_ids << arena
+      @game_number += 1
+      counter += 1
     end
 
-    new_group_1 = group_2.shift
-    new_group_2 = group_1.pop
-    group_1.unshift(new_group_1)
-    group_2 << new_group_2
+    flight_number += 1
 
-    create_flights(group_1.shuffle, group_2.shuffle, flight_number += 1, player_matching)
+    create_flights(player_matching, flight_number)
   end
 
-  def build_total_games(group_a, group_b)
+  # def create_flights(group_1, group_2,  flight_number = 1, player_matching = {})
+  #   return player_matching if flight_number > number_of_flights
+  #
+  #   arenas = machine_ids.shift(number_of_flights).reverse
+  #   player_matching["flight_#{flight_number}"] = []
+  #   group_1.each_with_index do |player, index|
+  #     arena = arenas.shift
+  #     player_match_ups[player][:opponents][group_2[index]] += 1
+  #     player_match_ups[group_2[index]][:opponents][player] += 1
+  #     player_match_ups[player][:arenas][arena] += 1
+  #     player_match_ups[group_2[index]][:arenas][arena] += 1
+  #
+  #     match = { "arena_#{arena}" => [ player, group_2[index] ] }
+  #     player_matching["flight_#{flight_number}"] << match
+  #     machine_ids << arena
+  #   end
+  #
+  #   new_group_1 = group_2.shift
+  #   new_group_2 = group_1.pop
+  #   group_1.unshift(new_group_1)
+  #   group_2 << new_group_2
+  #
+  #   create_flights(group_1.shuffle, group_2.shuffle, flight_number += 1, player_matching)
+  # end
+
+  def build_total_games
+    odds_half = odds.count / 2
+    evens_half = evens.count / 2
+    odds_dup = odds.dup
+    evens_dup = evens.dup
+    build_base_games(group_1.dup, group_2.dup)
+    build_base_games(odds_dup[0..odds_half  - 1], odds_dup[odds_half..-1])
+    build_base_games(evens_dup[0..evens_half  - 1], evens_dup[evens_half..-1])
+  end
+
+  def build_base_games(group_a, group_b)
     return if player_match_ups[group_a[0]][:opponents][group_b[0]] > 0
 
     index = 0
 
     until (index > group_a.count  - 1) || (index >  group_b.count - 1)
-      base_games[game_number] = [ group_a[index], group_b[index] ]
+      base_games[@game_number] = [ group_a[index], group_b[index] ]
       player_match_ups[group_a[index]][:opponents][group_b[index]] +=1
       player_match_ups[group_b[index]][:opponents][group_a[index]] +=1
       index += 1
@@ -116,7 +151,7 @@ class GenerateLeague
     group_a.unshift(new_group_a)
     group_b << new_group_b
 
-    build_total_games(group_a, group_b)
+    build_base_games(group_a, group_b)
   end
 
   def build_player_match_up_hash
@@ -137,8 +172,25 @@ class GenerateLeague
     end
   end
 
+  def rebuild_player_match_up
+    player_match_ups.each do |_player, player_match|
+      player_match[:opponents].keys.each do |opponent|
+        player_match[:opponents][opponent] = 0
+      end
+    end
+    reset_game_number
+  end
+
   def number_of_flights
     @number_of_flights ||= player_ids.size / 2
+  end
+
+  def reset_game_number
+    @game_number = 1
+  end
+
+  def last_game_number
+    @last_game_number ||= base_games.keys.sort.last
   end
 
   # def final_hash
