@@ -98,39 +98,12 @@ class GenerateLeague
     create_flights(player_matching, flight_number)
   end
 
-  # def create_flights(group_1, group_2,  flight_number = 1, player_matching = {})
-  #   return player_matching if flight_number > number_of_flights
-  #
-  #   arenas = machine_ids.shift(number_of_flights).reverse
-  #   player_matching["flight_#{flight_number}"] = []
-  #   group_1.each_with_index do |player, index|
-  #     arena = arenas.shift
-  #     player_match_ups[player][:opponents][group_2[index]] += 1
-  #     player_match_ups[group_2[index]][:opponents][player] += 1
-  #     player_match_ups[player][:arenas][arena] += 1
-  #     player_match_ups[group_2[index]][:arenas][arena] += 1
-  #
-  #     match = { "arena_#{arena}" => [ player, group_2[index] ] }
-  #     player_matching["flight_#{flight_number}"] << match
-  #     machine_ids << arena
-  #   end
-  #
-  #   new_group_1 = group_2.shift
-  #   new_group_2 = group_1.pop
-  #   group_1.unshift(new_group_1)
-  #   group_2 << new_group_2
-  #
-  #   create_flights(group_1.shuffle, group_2.shuffle, flight_number += 1, player_matching)
-  # end
-
   def build_total_games
-    odds_half = odds.count / 2
-    evens_half = evens.count / 2
-    odds_dup = odds.dup
-    evens_dup = evens.dup
-    build_base_games(group_1.dup, group_2.dup)
-    build_base_games(odds_dup[0..odds_half  - 1], odds_dup[odds_half..-1])
-    build_base_games(evens_dup[0..evens_half  - 1], evens_dup[evens_half..-1])
+    odds_half = odds.size / 2
+    evens_half = evens.size / 2
+    build_base_games(group_1, group_2)
+    build_base_games(odds[0..odds_half  - 1], odds[odds_half..-1])
+    build_base_games(evens[0..evens_half  - 1], evens[evens_half..-1])
   end
 
   def build_base_games(group_a, group_b)
