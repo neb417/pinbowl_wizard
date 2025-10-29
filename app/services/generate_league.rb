@@ -18,6 +18,9 @@ class GenerateLeague
     self.result = {}
     self.player_match_ups = {}
     self.base_games = {}
+    @player_player = {}
+    @player_machine = {}
+    @player_player_machine = {}
   end
 
   def call
@@ -26,9 +29,6 @@ class GenerateLeague
     build_total_games
     rebuild_player_match_up
     create_seasons
-    result.each do |round, _value|
-      result[round] = create_flights
-    end
     binding.pry
   end
 
@@ -37,6 +37,7 @@ class GenerateLeague
   attr_accessor :result, :machines, :accounts, :player_ids,
                 :machine_ids, :player_match_ups, :evens, :odds,
                 :number_of_flights, :group_1, :group_2, :base_games
+
 
   def split_players_into_groups
     player_ids.each_with_index do |id, index|
@@ -51,7 +52,6 @@ class GenerateLeague
   def create_season(group_1, group_2, round_number = 1)
     return if round_number > @number_of_rounds
 
-    # result["round_#{round_number}"] = create_flights(group_1.clone, group_2.clone)
     result["round_#{round_number}"] = {}
     if round_number % 2 == 0
       create_season(group_1, group_2, round_number + 1)
@@ -62,22 +62,32 @@ class GenerateLeague
 
   def create_seasons
     round_number = 1
+    machines_half_point = machine_ids.size / 2
+    first_half_arenas = machine_ids[0..machines_half_point - 1]
+    second_half_arenas = machine_ids[machines_half_point..-1]
+
     @number_of_rounds.times do
-      result["round_#{round_number}"] = {}
+      arenas = round_number % 2 == 0 ? second_half_arenas : first_half_arenas
+
+      if round_number != 2 && round_number % 2 == 0
+        arenas.rotate!(-1)
+      end
+
+      result["round_#{round_number}"] = create_flights(arenas)
       round_number +=1
     end
   end
 
-  def create_flights(player_matching = {}, flight_number = 1)
+  def create_flights(arenas, player_matching = {}, flight_number = 1)
     return player_matching if flight_number > number_of_flights
 
-    arenas = machine_ids.shift(number_of_flights).reverse
+    flight_arenas = arenas.shift(number_of_flights)
     player_matching["flight_#{flight_number}"] = []
 
     counter = 1
     until counter > number_of_flights
       reset_game_number if @game_number > last_game_number
-      arena = arenas.shift
+      arena = flight_arenas.shift
       match = { "arena_#{arena}" => base_games[@game_number] }
       player_matching["flight_#{flight_number}"] << match
 
@@ -88,17 +98,18 @@ class GenerateLeague
       player_match_ups[player_1][:arenas][arena] += 1
       player_match_ups[player_2][:arenas][arena] += 1
 
-      machine_ids << arena
+      arenas << arena
       @game_number += 1
       counter += 1
     end
 
     flight_number += 1
 
-    create_flights(player_matching, flight_number)
+    create_flights(arenas, player_matching, flight_number)
   end
 
   def build_total_games
+    # player_ids.combination(2)
     odds_half = odds.size / 2
     evens_half = evens.size / 2
     build_base_games(group_1, group_2)

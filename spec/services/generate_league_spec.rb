@@ -17,6 +17,10 @@ RSpec.describe GenerateLeague, type: :service do
   let!(:player8) { create(:account_user, current_organization: organization, organization:) }
   let!(:player9) { create(:account_user, current_organization: organization, organization:) }
   let!(:player10) { create(:account_user, current_organization: organization, organization:) }
+  # let!(:player11) { create(:account_user, current_organization: organization, organization:) }
+  # let!(:player12) { create(:account_user, current_organization: organization, organization:) }
+  # let!(:player13) { create(:account_user, current_organization: organization, organization:) }
+  # let!(:player14) { create(:account_user, current_organization: organization, organization:) }
   let!(:machine1) { create(:machine, organization:) }
   let!(:machine2) { create(:machine, organization:) }
   let!(:machine3) { create(:machine, organization:) }
@@ -37,3 +41,4 @@ RSpec.describe GenerateLeague, type: :service do
     subject
   end
 end
+x
