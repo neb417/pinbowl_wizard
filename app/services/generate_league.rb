@@ -1,7 +1,6 @@
 class GenerateLeague
   include Callable
 
-  # def initialize(season:, number_of_rounds:, number_of_flights:)
   def initialize(season:, number_of_rounds:)
     @season = season
     @number_of_rounds = number_of_rounds
@@ -28,8 +27,7 @@ class GenerateLeague
     split_players_into_groups
     build_total_games
     rebuild_player_match_up
-    create_seasons
-    binding.pry
+    create_season
   end
 
   private
@@ -49,18 +47,7 @@ class GenerateLeague
     (group_2 << player_ids[half.. - 1]).flatten!
   end
 
-  def create_season(group_1, group_2, round_number = 1)
-    return if round_number > @number_of_rounds
-
-    result["round_#{round_number}"] = {}
-    if round_number % 2 == 0
-      create_season(group_1, group_2, round_number + 1)
-    else
-      create_season(group_1.reverse, group_2.reverse, round_number + 1)
-    end
-  end
-
-  def create_seasons
+  def create_season
     round_number = 1
     machines_half_point = machine_ids.size / 2
     first_half_arenas = machine_ids[0..machines_half_point - 1]
@@ -176,23 +163,4 @@ class GenerateLeague
   def last_game_number
     @last_game_number ||= base_games.keys.sort.last
   end
-
-  # def final_hash
-  #   {
-  #     rounds: [ {
-  #       round.id =>  {
-  #         flights: [ {
-  #           flight.id => {
-  #             matches: [ {
-  #               id: match.id,
-  #               machine_id: match.machine_id,
-  #               player_1_id: player_match_1.player,
-  #               player_2_id: player_match_2.player
-  #             } ]
-  #           }
-  #         } ]
-  #       }
-  #     } ]
-  #   }
-  # end
 end
