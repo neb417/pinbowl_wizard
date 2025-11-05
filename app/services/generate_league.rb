@@ -23,8 +23,9 @@ class GenerateLeague
     split_players_into_groups
     build_total_games
     rebuild_player_match_up
-    create_season
-    # binding.pry
+    ActiveRecord::Base.transaction do
+      create_season
+    end
   end
 
   private
