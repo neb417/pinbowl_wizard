@@ -29,7 +29,6 @@ RSpec.describe GenerateLeague, type: :service do
     expect do
       subject
     end.to change(Flight, :count)
-    binding.pry
   end
 
   it 'creates matches' do
