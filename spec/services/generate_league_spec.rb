@@ -41,4 +41,3 @@ RSpec.describe GenerateLeague, type: :service do
     subject
   end
 end
-x

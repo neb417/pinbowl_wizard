@@ -17,9 +17,6 @@ class GenerateLeague
     self.result = {}
     self.player_match_ups = {}
     self.base_games = {}
-    @player_player = {}
-    @player_machine = {}
-    @player_player_machine = {}
   end
 
   def call
@@ -96,7 +93,6 @@ class GenerateLeague
   end
 
   def build_total_games
-    # player_ids.combination(2)
     odds_half = odds.size / 2
     evens_half = evens.size / 2
     build_base_games(group_1, group_2)
