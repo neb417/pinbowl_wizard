@@ -20,6 +20,7 @@ RSpec.describe "/seasons", type: :request do
   end
 
   let(:valid_attributes) { valid_season_attributes }
+  let(:valid_create_attributes) { valid_season_create_attributes }
   let!(:season) { create(:season, valid_attributes) }
   let(:invalid_attributes) { invalid_season_attributes }
   let!(:invalid_season) { build(:season, invalid_attributes) }
@@ -55,13 +56,15 @@ RSpec.describe "/seasons", type: :request do
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Season" do
+        allow(GenerateLeague).to receive(:call).and_return(1)
         expect {
-          post seasons_url, params: { season: valid_attributes }
+          post seasons_url, params: { season: valid_create_attributes }
         }.to change(Season, :count).by(1)
       end
 
       it "redirects to the created season" do
-        post seasons_url, params: { season: valid_attributes }
+        allow(GenerateLeague).to receive(:call).and_return(1)
+        post seasons_url, params: { season: valid_create_attributes }
         expect(response).to redirect_to(season_url(Season.last))
       end
     end
@@ -134,7 +137,8 @@ RSpec.describe "/seasons", type: :request do
 
     describe "POST /create" do
       it "returns a turbo stream response on success" do
-        post seasons_url, params: { season: valid_attributes }, headers: headers
+        allow(GenerateLeague).to receive(:call).and_return(1)
+        post seasons_url, params: { season: valid_create_attributes }, headers: headers
         expect(response.media_type).to eq("text/vnd.turbo-stream.html")
         expect(response.body).to include("turbo-stream")
         expect(response.body).to include("prepend")

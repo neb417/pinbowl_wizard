@@ -1,7 +1,11 @@
+<%# locals: (round:) %>
+
 <div id="<%= dom_id round %>">
   <p>
     <strong><%= "Round #{round.number}" %></strong>
-    <%= round.season_id %>
+    <% round.flights.each do |flight| %>
+      <%= render partial: 'flights/flight', locals: { flight: flight } %>
+    <% end %>
   </p>
 
 </div>

@@ -1,0 +1,11 @@
+<%# locals: (flight:) %>
+
+<div id="<%= dom_id flight %>">
+  <p>
+    <strong><%= "Flight #{flight.number}" %></strong>
+    <% flight.matches.each do |match| %>
+      <%= render partial: 'matches/match', locals: { match: match } %>
+    <% end %>
+  </p>
+
+</div>

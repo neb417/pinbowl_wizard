@@ -1,0 +1,10 @@
+<%# locals: (match_form:, player_match:) %>
+
+<div id= "<%= dom_id player_match %>">
+  <p>
+    <%= player_match.user.first_name %>
+    <%= match_form.hidden_field :player_id, value: player_match.user_id %>
+    <%= match_form.label :score %>
+    <%= match_form.number_field :score %>
+  </p>
+</div>

@@ -1,0 +1,7 @@
+<%# locals: (match_form:, player_matches:) %>
+
+<div id= <%= "match_#{match_form.object_id}_player_matches" %>>
+  <% player_matches.each do |player_match| %>
+    <%= render partial: 'matches/player_match_form', locals: { match_form: match_form, player_match: player_match } %>
+  <% end %>
+</div>
