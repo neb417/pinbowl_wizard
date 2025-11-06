@@ -33,16 +33,13 @@ end
 User.create!(first_name: 'Unassigned', last_name: 'Test-User', email_address: 'unassigned@test.com', password: 'password')
 
 index1 = 1
-3.times do
+15.times do
   Machine.create!(name:  "#{org1.name} machine #{index1}", organization: org1)
   index1 += 1
 end
 
 index2 = 1
-3.times do
+15.times do
   Machine.create!(name:  "#{org2.name} machine #{index2}", organization: org2)
   index2 += 1
 end
-
-Season.create!(title: "#{org1.name} Season", organization: org1)
-Season.create!(title: "#{org2.name} Season", organization: org2)

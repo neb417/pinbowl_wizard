@@ -1,12 +1,25 @@
 <div id="<%= dom_id match %>">
   <p>
-    <strong>Flight:</strong>
-    <%= match.flight_id %>
+    <strong>Machine:</strong>
+    <%= match.machine.name %>
   </p>
 
   <p>
-    <strong>Machine:</strong>
-    <%= match.machine_id %>
-  </p>
+    <strong>Players:</strong>
 
+    <%= form_with model: match do |form| %>
+      <%= form.hidden_field :id %>
+      <%= form.hidden_field :machine_id %>
+      <%= form.hidden_field :flight_id %>
+      <%= form.fields_for :player_matches do |match_form| %>
+        <p>
+          <%= "#{match_form.object.user&.first_name} #{match_form.object.user&.last_name}" %>
+          <%= match_form.hidden_field :user_id %>
+          <%= match_form.label :score %>
+          <%= match_form.number_field :score %>
+        </p>
+      <% end %>
+      <%= form.submit %>
+    <% end %>
+  </p>
 </div>

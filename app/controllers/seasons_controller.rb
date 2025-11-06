@@ -25,6 +25,7 @@ class SeasonsController < ApplicationController
 
     respond_to do |format|
       if @season.save
+        GenerateLeague.call(season: @season, number_of_rounds: rounds_params[:number_of_rounds].to_i)
         format.html { redirect_to @season, notice: "Season was successfully created." }
         format.turbo_stream
       else
@@ -66,5 +67,8 @@ class SeasonsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def season_params
       params.expect(season: [ :title, :organization_id ])
+    end
+    def rounds_params
+      params.expect(season: [ :number_of_rounds ])
     end
 end

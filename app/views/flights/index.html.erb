@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Flights" %>
+
+<h1>Flights</h1>
+
+<div id="flights">
+  <%= render partial: 'flights/flights', locals: { flights: @flights } %>
+</div>
+
+<%= link_to "New round", new_round_path %>

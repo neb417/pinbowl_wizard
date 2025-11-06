@@ -21,6 +21,11 @@
   </div>
 
   <div>
+    <%= form.label :number_of_rounds, style: "display: block" %>
+    <%= form.number_field :number_of_rounds %>
+  </div>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

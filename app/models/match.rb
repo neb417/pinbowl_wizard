@@ -24,4 +24,5 @@ class Match < ApplicationRecord
   belongs_to :machine
   has_many :player_matches
   has_many :users, through: :player_matches
+  accepts_nested_attributes_for :player_matches
 end
