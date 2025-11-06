@@ -36,15 +36,15 @@ class MatchesController < ApplicationController
 
   # PATCH/PUT /matches/1 or /matches/1.json
   def update
-    # respond_to do |format|
-    #   if @match.update(match_params)
-    #     format.html { redirect_to @match, notice: "Match was successfully updated." }
-    #     format.json { render :show, status: :ok, location: @match }
-    #   else
-    #     format.html { render :edit, status: :unprocessable_content }
-    #     format.json { render json: @match.errors, status: :unprocessable_content }
-    #   end
-    # end
+    respond_to do |format|
+      if @match.update(match_params)
+        format.html { redirect_to @match, notice: "Match was successfully updated." }
+        format.json { render :show, status: :ok, location: @match }
+      else
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @match.errors, status: :unprocessable_content }
+      end
+    end
   end
 
   # DELETE /matches/1 or /matches/1.json
@@ -65,6 +65,6 @@ class MatchesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def match_params
-      params.expect(match: [ :id, :flight_id, :machine_id ], player_matches: [:player_1_score, :player_2_score, :player_1_id, :player_2_id] )
+      params.expect(match: [ :id, :flight_id, :machine_id ], player_matches: [ :player_1_score, :player_2_score, :player_1_id, :player_2_id ])
     end
 end
