@@ -75,6 +75,10 @@ module AttributesTestHelper
     { title: Faker::FunnyName.name, organization_id: create(:organization).id }
   end
 
+  def valid_season_create_attributes
+    { title: Faker::FunnyName.name, organization_id: create(:organization).id, number_of_rounds: 1 }
+  end
+
   def invalid_season_attributes
     { title: nil, organization_id: nil }
   end
