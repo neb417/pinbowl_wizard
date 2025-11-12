@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :organizations
   resources :matches do
     member do
-      post :submit_match_result
+      patch :submit_match_result
     end
   end
   resources :machines

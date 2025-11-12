@@ -9,7 +9,7 @@
   <p>
     <strong>Players:</strong>
 
-    <%= form_with model: match, url: submit_match_result_match_path(match), method: :post do |form| %>
+    <%= form_with model: match, url: submit_match_result_match_path(match), method: :patch do |form| %>
       <%= form.hidden_field :id %>
       <%= form.hidden_field :machine_id %>
       <%= form.hidden_field :flight_id %>
