@@ -73,20 +73,20 @@ class MatchesController < ApplicationController
     end
 
     def match_player_match_params
-      params.expect(match: [ :id, :flight_id, :machine_id, player_matches_attributes: [[:id, :score, :user_id]] ] )
+      params.expect(match: [ :id, :flight_id, :machine_id, player_matches_attributes: [ [ :id, :score, :user_id ] ] ])
     end
 
     def format_player_match_params(params)
       {
         player_1: {
-          id: params['0'][:id].to_i,
-          user_id: params['0'][:user_id].to_i,
-          score: params['0'][:score].to_i
+          id: params["0"][:id].to_i,
+          user_id: params["0"][:user_id].to_i,
+          score: params["0"][:score].to_i
         },
         player_2: {
-          id: params['1'][:id].to_i,
-          user_id: params['1'][:user_id].to_i,
-          score: params['1'][:score].to_i
+          id: params["1"][:id].to_i,
+          user_id: params["1"][:user_id].to_i,
+          score: params["1"][:score].to_i
         }
       }
     end

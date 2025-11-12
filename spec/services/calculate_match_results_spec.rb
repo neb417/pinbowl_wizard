@@ -6,7 +6,7 @@ RSpec.describe CalculateMatchResults, type: :service do
   let(:organization) { create(:organization) }
   let(:season) { create(:season, organization:) }
   let(:machine) { create(:machine, organization:) }
-  let(:match) { create(:match, machine:)}
+  let(:match) { create(:match, machine:) }
   let(:player1) { create(:account_user, current_organization: organization, organization:) }
   let(:player2) { create(:account_user, current_organization: organization, organization:) }
   let(:player_match_1) { create(:player_match, user: player1, match:) }
