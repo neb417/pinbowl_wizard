@@ -1,3 +1,5 @@
+<%# locals: (match:) %>
+
 <div id="<%= dom_id match %>">
   <p>
     <strong>Machine:</strong>
@@ -7,7 +9,7 @@
   <p>
     <strong>Players:</strong>
 
-    <%= form_with model: match do |form| %>
+    <%= form_with model: match, url: submit_match_result_match_path(match), method: :post do |form| %>
       <%= form.hidden_field :id %>
       <%= form.hidden_field :machine_id %>
       <%= form.hidden_field :flight_id %>
@@ -19,7 +21,7 @@
           <%= match_form.number_field :score %>
         </p>
       <% end %>
-      <%= form.submit %>
+      <%= form.submit 'Submit' %>
     <% end %>
   </p>
 </div>
