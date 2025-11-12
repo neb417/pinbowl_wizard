@@ -130,4 +130,62 @@ RSpec.describe "/matches", type: :request do
       expect(response).to redirect_to(matches_url)
     end
   end
+
+
+  describe "PATCH /submit_match_result" do
+    context "with valid parameters" do
+      let(:headers) { { "ACCEPT" => "text/vnd.turbo-stream.html" } }
+      let(:match) { create :match }
+      let(:player_match_1) { create(:player_match, match:) }
+      let(:player_match_2) { create(:player_match, match:) }
+      let(:submit_match_result_params) do
+        {
+          match:
+            {
+              id: match.id,
+              machine_id: match.machine_id,
+              flight_id: match.flight_id,
+              player_matches_attributes:
+                {
+                  '0': {
+                    id: player_match_1.id,
+                    user_id: player_match_1.user_id,
+                    score: player_match_1.score
+                  },
+                  '1': {
+                    id: player_match_2.id,
+                    user_id: player_match_2.user_id,
+                    score: player_match_2.score
+                  }
+                }
+            }
+        }
+      end
+
+      it "calls the calculate match results service" do
+        expect(CalculateMatchResults).to receive(:call).with(hash_including(:player_matches))
+
+        patch submit_match_result_match_path(match), headers: headers, params: submit_match_result_params
+      end
+
+      it "responds with a turbo stream" do
+        patch submit_match_result_match_path(match), headers: headers, params: submit_match_result_params
+        expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+        expect(response.body).to include("turbo-stream")
+      end
+    end
+
+    context "with invalid parameters" do
+      it "does not create a new Match" do
+        expect {
+          post matches_url, params: { match: invalid_attributes }
+        }.to change(Match, :count).by(0)
+      end
+
+      it "renders a response with 422 status (i.e. to display the 'new' template)" do
+        post matches_url, params: { match: invalid_attributes }
+        expect(response).to have_http_status(:unprocessable_content)
+      end
+    end
+  end
 end

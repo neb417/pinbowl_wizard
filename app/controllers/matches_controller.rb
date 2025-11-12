@@ -48,9 +48,7 @@ class MatchesController < ApplicationController
   end
 
   def submit_match_result
-    # parms = format_player_match_params(match_player_match_params[:player_matches_attributes])
     CalculateMatchResults.call(player_matches: format_player_match_params(match_player_match_params[:player_matches_attributes]))
-
   end
 
   # DELETE /matches/1 or /matches/1.json
