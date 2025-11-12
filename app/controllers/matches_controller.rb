@@ -1,5 +1,5 @@
 class MatchesController < ApplicationController
-  before_action :set_match, only: %i[ show edit update destroy ]
+  before_action :set_match, only: %i[ show edit update destroy submit_match_result ]
 
   # GET /matches or /matches.json
   def index
@@ -47,6 +47,10 @@ class MatchesController < ApplicationController
     end
   end
 
+  def submit_match_result
+    CalculateMatchResults.call(player_matches: format_player_match_params(match_player_match_params[:player_matches_attributes]))
+  end
+
   # DELETE /matches/1 or /matches/1.json
   def destroy
     @match.destroy!
@@ -68,7 +72,22 @@ class MatchesController < ApplicationController
       params.expect(match: [ :id, :flight_id, :machine_id ])
     end
 
-    def match_player_match_param
-      params.expect(match: [ :id, :flight_id, :machine_id ], player_matches: [ :player_1_score, :player_2_score, :player_1_id, :player_2_id ])
+    def match_player_match_params
+      params.expect(match: [ :id, :flight_id, :machine_id, player_matches_attributes: [ [ :id, :score, :user_id ] ] ])
+    end
+
+    def format_player_match_params(params)
+      {
+        player_1: {
+          id: params["0"][:id].to_i,
+          user_id: params["0"][:user_id].to_i,
+          score: params["0"][:score].to_i
+        },
+        player_2: {
+          id: params["1"][:id].to_i,
+          user_id: params["1"][:user_id].to_i,
+          score: params["1"][:score].to_i
+        }
+      }
     end
 end

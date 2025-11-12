@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   resource :session
   resources :passwords, param: :token
   resources :organizations
-  resources :matches
+  resources :matches do
+    member do
+      patch :submit_match_result
+    end
+  end
   resources :machines
   resources :users
   resources :rounds
